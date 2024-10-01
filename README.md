@@ -1,8 +1,5 @@
 # The Gourmet Gallery
 
-## Project Title
-The Gourmet Gallery
-
 ## Rationale
 The Gourmet Gallery is designed to indulge people by providing them with unique experiences and high-quality products that cater to their desires and preferences. By focusing on indulgence, we aim to create a sense of luxury and satisfaction that enhances their dining experience.
 
