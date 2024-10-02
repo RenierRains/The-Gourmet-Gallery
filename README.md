@@ -22,11 +22,11 @@ The project is built using the following technologies:
 - **MySQL**: For managing and storing data efficiently.
 
 ## Getting Started
-To get started with The Gourmet Gallery, follow these steps:
+To get started, follow these steps:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/yourusername/the-gourmet-gallery.git
+   git clone https://github.com/RenierRains/the-gourmet-gallery.git
 
 2. **Install Dependencies**:
    ```bash
