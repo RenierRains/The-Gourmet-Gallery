@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, MapPin, Phone, Clock, ChevronRight } from 'lucide-react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+import Slider from 'react-slick';
 import Register from './components/Register';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import './App.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const App: React.FC = () => {
-  //🔴 TODO: menu toggle?
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
-  // 🔴TODO: test track auth
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('user'));
 
-  //🔴 toggle test
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  //🔴TODO: test Effect to listen to changes in localStorage for authentication
   useEffect(() => {
     const handleStorageChange = () => {
       setIsAuthenticated(!!localStorage.getItem('user'));
@@ -29,6 +27,39 @@ const App: React.FC = () => {
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
+
+  // Data for the menu slider
+  const menuItems = [
+    {
+      name: 'Truffle Infused Risotto',
+      image: 'naenae.jpg', // Placeholder image
+      description: 'A creamy risotto with a hint of truffle flavor.',
+    },
+    {
+      name: 'Seared Wagyu Steak',
+      image: 'https://via.placeholder.com/400x300', // Placeholder image
+      description: 'Juicy and tender steak with a perfect sear.',
+    },
+    {
+      name: 'Deconstructed Lemon Tart',
+      image: 'https://via.placeholder.com/400x300', // Placeholder image
+      description: 'A modern take on the classic lemon tart.',
+    },
+  ];
+
+  // Slider settings
+  
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,        
+    autoplaySpeed: 3000,    
+    arrows: true,           
+    pauseOnHover: true,     
+  };
 
   return (
     <Router>
@@ -82,28 +113,27 @@ const App: React.FC = () => {
           </section>
 
           <section id="menu">
-            <h2 style={{ textAlign: 'center', fontSize: '2.5rem', marginBottom: '2rem', color: '#a8552f' }}>Our Menu</h2>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '2rem',
-            }}>
-              {['Truffle Infused Risotto', 'Seared Wagyu Steak', 'Deconstructed Lemon Tart'].map((dish) => (
-                <div key={dish} className="menu-item">
-                  <img src="/placeholder.svg" alt={dish} />
-                  <h3 style={{ padding: '1rem', color: '#a8552f' }}>{dish}</h3>
-                  <p style={{ padding: '0 1rem 1rem', color: '#b3a395' }}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  </p>
+            <h2 style={{ textAlign: 'center', fontSize: '2.5rem', marginBottom: '1.5rem', color: '#a8552f' }}>Our Menu</h2>
+
+            {/* Slider for Menu Items */}
+            <Slider {...sliderSettings}>
+              {menuItems.map((dish) => (
+                <div key={dish.name} className="menu-item">
+                  <div className="card">
+                    <img src={dish.image} alt={dish.name} style={{ width: '100%', height: 'auto' }} />
+                    <div className="card-content">
+                      <h3 style={{ padding: '.5rem', color: '#a8552f' }}>{dish.name}</h3>
+                      <p style={{ padding: '0 .5rem .5rem', color: '#b3a395' }}>
+                        {dish.description}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               ))}
-            </div>
+            </Slider>
           </section>
 
-          <section id="about" style={{
-            backgroundColor: '#2a1f1a',
-            padding: '6rem 0',
-          }}>
+          <section id="about" style={{ backgroundColor: '#2a1f1a', padding: '6rem 0' }}>
             <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
               <h2 style={{ fontSize: '2.5rem', marginBottom: '2rem', color: '#a8552f' }}>Our Story</h2>
               <p style={{ marginBottom: '2rem' }}>
@@ -127,7 +157,7 @@ const App: React.FC = () => {
           </section>
 
           <section id="contact">
-            <h2 style={{ textAlign: 'center', fontSize: '2.5rem', marginBottom: '2rem', color: '#a8552f' }}>Contact Us</h2>
+            <h2 style={{ textAlign: 'center', fontSize: '2.5rem', marginBottom: '10rem', color: '#a8552f' }}>Contact Us</h2>
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
@@ -151,11 +181,11 @@ const App: React.FC = () => {
         </main>
 
         <footer className="footer">
-          <p>&copy; 2023 The Gourmet Gallery. All rights reserved.</p>
+          <p>&copy; 2024 The Gourmet Gallery. All rights reserved.</p>
         </footer>
       </div>
     </Router>
   );
-}
+};
 
 export default App;
