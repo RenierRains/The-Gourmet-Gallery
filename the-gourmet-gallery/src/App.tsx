@@ -8,6 +8,7 @@ import Dashboard from './components/Dashboard';
 import './App.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import menu from './components/menu';
 
 const App: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -87,6 +88,8 @@ const App: React.FC = () => {
             </ul>
           </nav>
         </header>
+
+        <menu />
 
         <main>
           <Routes>
