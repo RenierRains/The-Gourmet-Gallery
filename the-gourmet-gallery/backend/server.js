@@ -2,6 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
+const menuRoutes = require('./routes/menuRoutes');
+const path = require('path');
+
+const uploadRoutes = require('./routes/uploadRoutes');
 
 const app = express();
 
@@ -15,6 +19,10 @@ app.use(cors({
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/menu', menuRoutes);
+app.use('/api/upload', uploadRoutes);
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // db
 sequelize.sync({ force: false })
