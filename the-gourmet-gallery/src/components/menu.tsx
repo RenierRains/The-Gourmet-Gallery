@@ -2,6 +2,7 @@ import React from 'react';
 import authService from '../services/authService';
 import { useNavigate } from 'react-router-dom';
 import './menu.css';
+import { Link } from 'lucide-react';
 
 const menuItems = {
   mainDish: [
@@ -14,7 +15,47 @@ const menuItems = {
       name: "Steak",
       image: "https://via.placeholder.com/150",
       description: "Tender and flavorful steak served with mashed potatoes."
-    }
+    },
+    {
+      name: "Steak",
+      image: "https://via.placeholder.com/150",
+      description: "Tender and flavorful steak served with mashed potatoes."
+    },
+    {
+      name: "Steak",
+      image: "https://via.placeholder.com/150",
+      description: "Tender and flavorful steak served with mashed potatoes."
+    },
+    {
+      name: "Steak",
+      image: "https://via.placeholder.com/150",
+      description: "Tender and flavorful steak served with mashed potatoes."
+    },
+    {
+      name: "Steak",
+      image: "https://via.placeholder.com/150",
+      description: "Tender and flavorful steak served with mashed potatoes."
+    },
+    {
+      name: "Steak",
+      image: "https://via.placeholder.com/150",
+      description: "Tender and flavorful steak served with mashed potatoes."
+    },
+    {
+      name: "Steak",
+      image: "https://via.placeholder.com/150",
+      description: "Tender and flavorful steak served with mashed potatoes."
+    },
+    {
+      name: "Steak",
+      image: "https://via.placeholder.com/150",
+      description: "Tender and flavorful steak served with mashed potatoes."
+    },
+    {
+      name: "Steak",
+      image: "https://via.placeholder.com/150",
+      description: "Tender and flavorful steak served with mashed potatoes."
+    },
   ],
   appetizer: [
     {
@@ -26,7 +67,47 @@ const menuItems = {
       name: "Mozzarella Sticks",
       image: "https://via.placeholder.com/150",
       description: "Fried mozzarella sticks served with marinara sauce."
-    }
+    },
+    {
+      name: "Bruschetta",
+      image: "https://via.placeholder.com/150",
+      description: "Toasted bread topped with tomatoes, garlic, and basil."
+    },
+    {
+      name: "Bruschetta",
+      image: "https://via.placeholder.com/150",
+      description: "Toasted bread topped with tomatoes, garlic, and basil."
+    },
+    {
+      name: "Bruschetta",
+      image: "https://via.placeholder.com/150",
+      description: "Toasted bread topped with tomatoes, garlic, and basil."
+    },
+    {
+      name: "Bruschetta",
+      image: "https://via.placeholder.com/150",
+      description: "Toasted bread topped with tomatoes, garlic, and basil."
+    },
+    {
+      name: "Bruschetta",
+      image: "https://via.placeholder.com/150",
+      description: "Toasted bread topped with tomatoes, garlic, and basil."
+    },
+    {
+      name: "Bruschetta",
+      image: "https://via.placeholder.com/150",
+      description: "Toasted bread topped with tomatoes, garlic, and basil."
+    },
+    {
+      name: "Bruschetta",
+      image: "https://via.placeholder.com/150",
+      description: "Toasted bread topped with tomatoes, garlic, and basil."
+    },
+    {
+      name: "Bruschetta",
+      image: "https://via.placeholder.com/150",
+      description: "Toasted bread topped with tomatoes, garlic, and basil."
+    },
   ],
   dessert: [
     {
@@ -38,7 +119,47 @@ const menuItems = {
       name: "Cheesecake",
       image: "https://via.placeholder.com/150",
       description: "Creamy cheesecake with a graham cracker crust."
-    }
+    },
+    {
+      name: "Cheesecake",
+      image: "https://via.placeholder.com/150",
+      description: "Creamy cheesecake with a graham cracker crust."
+    },
+    {
+      name: "Cheesecake",
+      image: "https://via.placeholder.com/150",
+      description: "Creamy cheesecake with a graham cracker crust."
+    },
+    {
+      name: "Cheesecake",
+      image: "https://via.placeholder.com/150",
+      description: "Creamy cheesecake with a graham cracker crust."
+    },
+    {
+      name: "Cheesecake",
+      image: "https://via.placeholder.com/150",
+      description: "Creamy cheesecake with a graham cracker crust."
+    },
+    {
+      name: "Cheesecake",
+      image: "https://via.placeholder.com/150",
+      description: "Creamy cheesecake with a graham cracker crust."
+    },
+    {
+      name: "Cheesecake",
+      image: "https://via.placeholder.com/150",
+      description: "Creamy cheesecake with a graham cracker crust."
+    },
+    {
+      name: "Cheesecake",
+      image: "https://via.placeholder.com/150",
+      description: "Creamy cheesecake with a graham cracker crust."
+    },
+    {
+      name: "Cheesecake",
+      image: "https://via.placeholder.com/150",
+      description: "Creamy cheesecake with a graham cracker crust."
+    },
   ],
   drinks: [
     {
@@ -50,7 +171,47 @@ const menuItems = {
       name: "Cappuccino",
       image: "https://via.placeholder.com/150",
       description: "Creamy cappuccino with a frothy top."
-    }
+    },
+    {
+      name: "Cappuccino",
+      image: "https://via.placeholder.com/150",
+      description: "Creamy cappuccino with a frothy top."
+    },
+    {
+      name: "Cappuccino",
+      image: "https://via.placeholder.com/150",
+      description: "Creamy cappuccino with a frothy top."
+    },
+    {
+      name: "Cappuccino",
+      image: "https://via.placeholder.com/150",
+      description: "Creamy cappuccino with a frothy top."
+    },
+    {
+      name: "Cappuccino",
+      image: "https://via.placeholder.com/150",
+      description: "Creamy cappuccino with a frothy top."
+    },
+    {
+      name: "Cappuccino",
+      image: "https://via.placeholder.com/150",
+      description: "Creamy cappuccino with a frothy top."
+    },
+    {
+      name: "Cappuccino",
+      image: "https://via.placeholder.com/150",
+      description: "Creamy cappuccino with a frothy top."
+    },
+    {
+      name: "Cappuccino",
+      image: "https://via.placeholder.com/150",
+      description: "Creamy cappuccino with a frothy top."
+    },
+    {
+      name: "Cappuccino",
+      image: "https://via.placeholder.com/150",
+      description: "Creamy cappuccino with a frothy top."
+    },
   ]
 };
 

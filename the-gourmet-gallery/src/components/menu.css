@@ -20,6 +20,7 @@ body {
     font-size: 2.5rem;
     color: #333;
     margin-bottom: 40px;
+    margin-top: 60px;
   }
   
   .menu-category {
@@ -72,12 +73,12 @@ body {
   .card-title {
     font-size: 1.25rem;
     margin-bottom: 10px;
-    color: #333;
+    color: #a8552f;
   }
   
   .card-text {
     font-size: 1rem;
-    color: #666;
+    color: #b3a395;
     line-height: 1.4;
   }
   

@@ -6,7 +6,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import MainPage from './components/MainPage';
-import Menu from './components/Menu'
+import Menu from './components/menu';
 import './App.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
