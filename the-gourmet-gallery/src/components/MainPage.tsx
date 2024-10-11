@@ -1,27 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import { ChevronRight } from 'lucide-react';
+import menuService from '../services/menuService';
 import './MainPage.css';
 
+interface MenuItem {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  category: string;
+  price: number;
+}
+
 const MainPage: React.FC = () => {
-  const menuItems = [
-    {
-      name: 'Truffle Infused Risotto',
-      image: 'naenae.jpg', // Placeholder image
-      description: 'A creamy risotto with a hint of truffle flavor.',
-    },
-    {
-      name: 'Seared Wagyu Steak',
-      image: 'https://via.placeholder.com/400x300', // Placeholder image
-      description: 'Juicy and tender steak with a perfect sear.',
-    },
-    {
-      name: 'Deconstructed Lemon Tart',
-      image: 'https://via.placeholder.com/400x300', // Placeholder image
-      description: 'A modern take on the classic lemon tart.',
-    },
-  ];
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
+
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      try {
+        const data = await menuService.getMenuItems();
+        setMenuItems(data);
+        setLoading(false);
+      } catch (err: any) {
+        setError('Failed to fetch menu items.');
+        setLoading(false);
+      }
+    };
+
+    fetchMenuItems();
+  }, []);
 
   const sliderSettings = {
     dots: true,
@@ -37,11 +48,14 @@ const MainPage: React.FC = () => {
     centerPadding: '100px',
   };
 
+
+  const featuredItems = menuItems.slice(0, 3); // adjust for featured menu things 
+
   return (
     <main>
-      <section id="home" style={{ marginBottom: '3rem' }}>
+      <section id="home" className="home-section">
         <div className="overlay"></div>
-        <div>
+        <div className="home-content">
           <h1>The Gourmet Gallery</h1>
           <p>Experience culinary artistry in every bite</p>
           <a href="#menu" className="explore-button">Explore Our Menu</a>
@@ -51,27 +65,34 @@ const MainPage: React.FC = () => {
       <section id="menu">
         <h2>Our Menu</h2>
 
-        <Slider {...sliderSettings}>
-          {menuItems.map((dish) => (
-            <div key={dish.name} className="menu-item">
-              <div className="card">
-                <img src={dish.image} alt={dish.name} />
-                <div className="card-content">
-                  <h3>{dish.name}</h3>
-                  <p>{dish.description}</p>
+        {loading && <p>Loading menu...</p>}
+        {error && <p className="error-message">{error}</p>}
+        {!loading && !error && (
+          <>
+            <Slider {...sliderSettings}>
+              {featuredItems.map((dish) => (
+                <div key={dish.id} className="menu-item">
+                  <div className="card">
+                    <img src={dish.image} alt={dish.name} />
+                    <div className="card-content">
+                      <h3>{dish.name}</h3>
+                      <p>{dish.description}</p>
+                      <p className="price">₱{dish.price}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
-        </Slider>
+              ))}
+            </Slider>
 
-        <div className="view-menu-button">
-          <Link to="/menu">View Full Menu</Link>
-        </div>
+            <div className="view-menu-button">
+              <Link to="/menu">View Full Menu</Link>
+            </div>
+          </>
+        )}
       </section>
 
       <section id="about">
-        <div>
+        <div className="about-content">
           <h2>Our Story</h2>
           <p>
             The Gourmet Gallery is a culinary haven where flavors are our canvas and dishes are our masterpieces.

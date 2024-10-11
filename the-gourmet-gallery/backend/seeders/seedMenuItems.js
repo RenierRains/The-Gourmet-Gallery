@@ -9,7 +9,12 @@ const menuItems = [
     category: 'Main Course',
     price: 3460,
   },
-  // add more items
+  {name: 'Foie Gras with Brioche',
+    description: 'A rich and buttery foie gras, perfectly seared, served on toasted brioche for a delicate balance of flavors and textures.',
+    image: '/uploads/Foie Gras with Brioche',
+    category: 'Main Course',
+    price: 3460,
+  },
 ];
 
 const seedMenuItems = async () => {

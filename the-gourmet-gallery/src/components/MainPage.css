@@ -66,6 +66,37 @@ main {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+.home-content {
+  position: relative;
+  z-index: 1;
+}
+
+.home-content h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  color: #a8552f;
+}
+
+.home-content p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: #e6d5c5;
+}
+
+.explore-button {
+  background-color: #a8552f;
+  color: #e6d5c5;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.explore-button:hover {
+  background-color: #8b4a2e;
+}
+
 #menu {
   max-width: 700px;
   margin: 0 auto;
@@ -80,6 +111,7 @@ main {
   transition: transform 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 550px;
+  margin: 0 auto;
 }
 
 .menu-item .card {
@@ -99,24 +131,44 @@ main {
   margin: auto;
 }
 
-.menu-item .card-content {
+.card-content {
   padding: 1rem;
 }
 
-.menu-item h3 {
+.card-content h3 {
   color: #a8552f;
   font-size: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
-.menu-item p {
+.card-content p {
   color: #b3a395;
   font-size: 1rem;
+  margin-bottom: 0.5rem;
 }
 
-.view-menu-button{
+.price {
+  color: #e6d5c5;
+  font-weight: bold;
+}
+
+.view-menu-button {
   margin-top: 30px;
 }
 
+.view-menu-button a {
+  background-color: #a8552f;
+  color: #e6d5c5;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.view-menu-button a:hover {
+  background-color: #8b4a2e;
+}
 
 .slick-prev, .slick-next {
   z-index: 1000;
@@ -143,26 +195,40 @@ main {
   right: -60px;
 }
 
-.explore-button,
-.view-menu-button a,
-.reservation-button {
-  background-color: #a8552f;
-  color: #496367;
-  padding: 1rem 2rem;
-  text-decoration: none;
-  font-weight: bold;
-  border-radius: 5px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
 #about,
 #contact {
   text-align: center;
   padding: 6rem 0;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.about-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #a8552f;
+}
+
+.about-content p {
+  font-size: 1.2rem;
+  color: #b3a395;
+  margin-bottom: 2rem;
+}
+
+.reservation-button {
+  display: inline-flex;
+  align-items: center;
+  background-color: #a8552f;
+  color: #e6d5c5;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.reservation-button:hover {
+  background-color: #8b4a2e;
 }
 
 .contact-info {
@@ -188,6 +254,18 @@ main {
   nav ul.open {
       display: flex;
   }
+
+  .menu-item {
+    width: 100%;
+  }
+
+  .slick-prev {
+    left: -40px;
+  }
+
+  .slick-next {
+    right: -40px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -201,5 +279,25 @@ main {
 
   main {
       margin-top: 5rem;
+  }
+
+  .home-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .home-content p {
+    font-size: 1rem;
+  }
+
+  .explore-button, .view-menu-button a, .reservation-button {
+    padding: 0.75rem 1.5rem;
+  }
+
+  .menu-item .card {
+    height: auto;
+  }
+
+  .menu-item img {
+    height: 200px;
   }
 }
