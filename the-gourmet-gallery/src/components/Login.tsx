@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import authService from '../services/authService';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
-import './Auth.css'; 
+import './Auth.css';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -15,8 +15,8 @@ const Login: React.FC = () => {
     e.preventDefault();
     try {
       const response = await authService.login(email, password);
-      login(response.token); // Update context with token
-      navigate('/'); // Redirects to MainPage (Home)
+      login(response.token, response.user); 
+      navigate('/');
     } catch (error: any) {
       setMessage(error.response?.data?.message || 'Login failed');
     }

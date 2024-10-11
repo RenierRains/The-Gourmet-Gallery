@@ -6,6 +6,7 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import MainPage from './components/MainPage';
 import Menu from './components/menu';
+import ReservationPage from './components/ReservationPage';
 import { AuthContext } from './contexts/AuthContext';
 import './App.css';
 import "slick-carousel/slick/slick.css";
@@ -35,7 +36,8 @@ const AppContent: React.FC = () => {
           </button>
           <ul className={isMenuOpen ? 'open' : ''}>
             <li><Link to="/">Home</Link></li>
-            <li><a href="#menu">Menu</a></li>
+            <li><Link to="/menu">Menu</Link></li>
+            <li><Link to="/reservation">Reservation</Link></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
             {!isAuthenticated && (
@@ -57,6 +59,7 @@ const AppContent: React.FC = () => {
         <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
         <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
         <Route path="/menu" element={<Menu />} />
+        <Route path="/reservation" element={isAuthenticated ? <ReservationPage /> : <Navigate to="/login" />} />
       </Routes>
     </div>
   );

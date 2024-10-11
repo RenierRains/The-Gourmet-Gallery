@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
-import AppContent from './AppContent'; // Ensure this file exists
+import AppContent from './AppContent';
 
 const App: React.FC = () => {
   return (

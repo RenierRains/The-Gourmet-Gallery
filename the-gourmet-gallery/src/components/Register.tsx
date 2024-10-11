@@ -16,16 +16,18 @@ const Register: React.FC = () => {
     e.preventDefault();
     try {
       const response = await authService.register(username, email, password);
-      login(response.token); // test context
-      navigate('/'); 
+      // insta login after reg test
+      const loginResponse = await authService.login(email, password);
+      login(loginResponse.token, loginResponse.user);
+      navigate('/');
     } catch (error: any) {
-      console.error('Registration error:', error); 
+      console.error('Registration error:', error);
       setMessage(error.response?.data?.message || 'Registration failed');
     }
   };
 
   const handleClose = () => {
-    navigate('/'); 
+    navigate('/');
   };
 
   return (

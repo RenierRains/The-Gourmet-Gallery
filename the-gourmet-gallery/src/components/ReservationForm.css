@@ -1,0 +1,83 @@
+.reservation-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    background-color: #2a1f1a;
+    color: #e6d5c5;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+  
+  .reservation-form-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #a8552f;
+  }
+  
+  .message {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .message.success {
+    color: green;
+  }
+  
+  .message.error {
+    color: red;
+  }
+  
+  .reservation-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-group label span {
+    color: red;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #1c1410;
+    color: #e6d5c5;
+  }
+  
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: #b3a395;
+  }
+  
+  .reservation-button {
+    padding: 0.75rem;
+    background-color: #a8552f;
+    color: #e6d5c5;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .reservation-button:hover {
+    background-color: #8b4a2e;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 576px) {
+    .reservation-form-container {
+      padding: 1.5rem 1rem;
+    }
+  }

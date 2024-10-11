@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import { ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import menuService from '../services/menuService';
 import './MainPage.css';
 
@@ -51,6 +52,12 @@ const MainPage: React.FC = () => {
 
   const featuredItems = menuItems.slice(0, 3); // adjust for featured menu things 
 
+  const navigate = useNavigate();
+
+  const handleReservationClick = () => {
+    navigate('/reservation');
+  };
+
   return (
     <main>
       <section id="home" className="home-section">
@@ -58,8 +65,10 @@ const MainPage: React.FC = () => {
         <div className="home-content">
           <h1>The Gourmet Gallery</h1>
           <p>Experience culinary artistry in every bite</p>
-          <a href="#menu" className="explore-button">Explore Our Menu</a>
-        </div>
+          <button onClick={handleReservationClick} className="explore-button">
+            Make a Reservation <ChevronRight size={20} />
+          </button>
+          </div>
       </section>
 
       <section id="menu">
