@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import authService from '../services/authService';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
 import './Auth.css';
 
 const Register: React.FC = () => {
@@ -9,20 +10,22 @@ const Register: React.FC = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await authService.register(username, email, password);
-      navigate('/dashboard');
+      const response = await authService.register(username, email, password);
+      login(response.token); // test context
+      navigate('/'); 
     } catch (error: any) {
-        console.error('Registration error:', error); 
+      console.error('Registration error:', error); 
       setMessage(error.response?.data?.message || 'Registration failed');
     }
   };
 
   const handleClose = () => {
-    navigate('/'); // home?
+    navigate('/'); 
   };
 
   return (

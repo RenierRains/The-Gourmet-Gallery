@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import authService from '../services/authService';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
 import './Auth.css'; 
 
 const Login: React.FC = () => {
@@ -8,12 +9,14 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await authService.login(email, password);
-      navigate('/dashboard');
+      const response = await authService.login(email, password);
+      login(response.token); // Update context with token
+      navigate('/'); // Redirects to MainPage (Home)
     } catch (error: any) {
       setMessage(error.response?.data?.message || 'Login failed');
     }
