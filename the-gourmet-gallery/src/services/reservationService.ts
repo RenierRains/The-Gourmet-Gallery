@@ -27,6 +27,44 @@ const createReservation = async (reservationData: ReservationData) => {
   return response.data;
 };
 
+const getUserReservations = async () => {
+  const token = localStorage.getItem('user');
+
+  if (!token) {
+    throw new Error('User not authenticated');
+  }
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(`${API_URL}user`, config);
+  return response.data;
+};
+
+const deleteReservation = async (id: number) => {
+  const token = localStorage.getItem('user');
+
+  if (!token) {
+    throw new Error('User not authenticated');
+  }
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.delete(`${API_URL}${id}`, config);
+  return response.data;
+};
+
 export default {
   createReservation,
+  getUserReservations,
+  deleteReservation,
 };

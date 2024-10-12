@@ -1,0 +1,57 @@
+.dashboard-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    color: #e6d5c5;
+  }
+  
+  h2, h3 {
+    color: #a8552f;
+  }
+  
+  .logout-button {
+    background-color: #a8552f;
+    color: #e6d5c5;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .reservations-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  .reservations-table th,
+  .reservations-table td {
+    border: 1px solid #444;
+    padding: 0.75rem;
+    text-align: left;
+  }
+  
+  .reservations-table th {
+    background-color: #2a1f1a;
+  }
+  
+  .cancel-button {
+    background-color: transparent;
+    border: none;
+    color: #e6d5c5;
+    cursor: pointer;
+  }
+  
+  .cancel-button:hover {
+    color: #ff4d4d;
+  }
+  
+  .message {
+    margin-top: 1rem;
+    color: #a8552f;
+  }
+  
+  .error-message {
+    color: red;
+  }

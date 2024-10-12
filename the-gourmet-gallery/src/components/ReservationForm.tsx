@@ -1,23 +1,27 @@
 import React, { useState, useEffect, useContext } from 'react';
 import reservationService from '../services/reservationService';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../contexts/AuthContext'; // for auth
+import { AuthContext } from '../contexts/AuthContext';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import TimePicker from 'react-time-picker';
+import 'react-time-picker/dist/TimePicker.css';
 import './ReservationForm.css';
 
 const ReservationForm: React.FC = () => {
-  const { isAuthenticated, user } = useContext(AuthContext); // gett auth stat
+  const { isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/login'); // redirect if not auth
+      navigate('/login');
     }
   }, [isAuthenticated, navigate]);
 
   const [formData, setFormData] = useState({
     phone: '',
-    date: '',
-    time: '',
+    date: new Date(), // Use Date object for date picker
+    time: '12:00',     // Default time
     guests: 1,
     specialRequests: '',
   });
@@ -25,9 +29,7 @@ const ReservationForm: React.FC = () => {
   const [message, setMessage] = useState<string>('');
   const [success, setSuccess] = useState<boolean>(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-
+  const handleChange = (name: string, value: any) => {
     setFormData((prevData) => ({
       ...prevData,
       [name]: name === 'guests' ? parseInt(value) : value,
@@ -36,23 +38,22 @@ const ReservationForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     // Client-side validation
     const { phone, date, time, guests } = formData;
     if (!phone || !date || !time || !guests) {
       setMessage('Please fill in all required fields.');
       return;
     }
-  
-    // Exclude name and email from reservationData
+
     const reservationData = {
       phone,
-      date,
+      date: date.toISOString().split('T')[0], // Format date to YYYY-MM-DD
       time,
       guests,
       specialRequests: formData.specialRequests,
     };
-  
+
     try {
       await reservationService.createReservation(reservationData);
       setMessage('Reservation created successfully!');
@@ -60,8 +61,8 @@ const ReservationForm: React.FC = () => {
       // Reset form
       setFormData({
         phone: '',
-        date: '',
-        time: '',
+        date: new Date(),
+        time: '12:00',
         guests: 1,
         specialRequests: '',
       });
@@ -87,30 +88,25 @@ const ReservationForm: React.FC = () => {
             id="phone"
             name="phone"
             value={formData.phone}
-            onChange={handleChange}
+            onChange={(e) => handleChange(e.target.name, e.target.value)}
             required
           />
         </div>
         <div className="form-group">
           <label htmlFor="date">Date<span>*</span></label>
-          <input
-            type="date"
-            id="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
+          <DatePicker
+            selected={formData.date}
+            onChange={(date) => handleChange('date', date)}
+            minDate={new Date()}
+            dateFormat="yyyy-MM-dd"
             required
-            min={new Date().toISOString().split('T')[0]} // lock past dates
           />
         </div>
         <div className="form-group">
           <label htmlFor="time">Time<span>*</span></label>
-          <input
-            type="time"
-            id="time"
-            name="time"
+          <TimePicker
+            onChange={(time) => handleChange('time', time)}
             value={formData.time}
-            onChange={handleChange}
             required
           />
         </div>
@@ -121,7 +117,7 @@ const ReservationForm: React.FC = () => {
             id="guests"
             name="guests"
             value={formData.guests}
-            onChange={handleChange}
+            onChange={(e) => handleChange(e.target.name, e.target.value)}
             required
             min="1"
           />
@@ -132,7 +128,7 @@ const ReservationForm: React.FC = () => {
             id="specialRequests"
             name="specialRequests"
             value={formData.specialRequests}
-            onChange={handleChange}
+            onChange={(e) => handleChange(e.target.name, e.target.value)}
             rows={4}
           ></textarea>
         </div>
