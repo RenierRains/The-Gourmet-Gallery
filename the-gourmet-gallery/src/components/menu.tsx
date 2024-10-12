@@ -40,6 +40,7 @@ const Menu: React.FC = () => {
   }));
 
   return (
+    <main>
     <div className="menu-page">
       <h1>Menu</h1>
 
@@ -65,6 +66,7 @@ const Menu: React.FC = () => {
         ))
       )}
     </div>
+  </main>
   );
 };
 

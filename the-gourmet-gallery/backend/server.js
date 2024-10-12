@@ -5,6 +5,7 @@ const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
 const menuRoutes = require('./routes/menuRoutes');
 const reservationRoutes = require('./routes/reservationRoutes'); 
+const adminRoutes = require('./routes/adminRoutes');
 const path = require('path');
 
 const app = express();
@@ -33,6 +34,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/auth', authRoutes);
 app.use('/api/menu', menuRoutes);
 app.use('/api/reservations', reservationRoutes); 
+app.use('/api/admin', adminRoutes); 
 
 // sync
 sequelize.sync({ alter: true })

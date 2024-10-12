@@ -1,0 +1,38 @@
+
+.admin-panel {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  .admin-nav {
+    width: 200px;
+    background-color: #2a1f1a;
+    padding-top: 2rem;
+  }
+  
+  .admin-nav ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .admin-nav ul li {
+    margin: 1rem 0;
+  }
+  
+  .admin-nav ul li a {
+    color: #e6d5c5;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    display: block;
+  }
+  
+  .admin-nav ul li a:hover {
+    background-color: #a8552f;
+  }
+  
+  .admin-content {
+    flex: 1;
+    padding: 2rem;
+    background-color: #1c1410;
+    color: #e6d5c5;
+  }

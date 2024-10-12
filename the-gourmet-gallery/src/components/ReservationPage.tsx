@@ -4,9 +4,11 @@ import './ReservationPage.css';
 
 const ReservationPage: React.FC = () => {
   return (
+    <main>
     <div className="reservation-page">
       <ReservationForm />
     </div>
+    </main>
   );
 };
 

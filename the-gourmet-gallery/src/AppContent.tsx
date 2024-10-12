@@ -8,12 +8,13 @@ import MainPage from './components/MainPage';
 import Menu from './components/menu';
 import ReservationPage from './components/ReservationPage';
 import { AuthContext } from './contexts/AuthContext';
+import AdminPanel from './components/AdminPanel';
 import './App.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const AppContent: React.FC = () => {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, user } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
@@ -49,6 +50,9 @@ const AppContent: React.FC = () => {
             {isAuthenticated && (
               <li><Link to="/dashboard">Dashboard</Link></li>
             )}
+            {isAuthenticated && user?.isAdmin && (
+              <li><Link to="/admin">Admin Panel</Link></li>
+            )}
           </ul>
         </nav>
       </header>
@@ -60,6 +64,10 @@ const AppContent: React.FC = () => {
         <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/reservation" element={isAuthenticated ? <ReservationPage /> : <Navigate to="/login" />} />
+        <Route
+          path="/admin/*"
+          element={isAuthenticated && user?.isAdmin ? <AdminPanel /> : <Navigate to="/login" />}
+        />
       </Routes>
     </div>
   );

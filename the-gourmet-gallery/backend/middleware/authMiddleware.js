@@ -3,7 +3,6 @@ const User = require('../models/User');
 
 const authMiddleware = async (req, res, next) => {
   try {
-
     console.log('Headers in authMiddleware:', req.headers);
 
     const authHeader = req.headers.authorization;

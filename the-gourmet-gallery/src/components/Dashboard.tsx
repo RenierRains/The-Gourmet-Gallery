@@ -61,6 +61,7 @@ const Dashboard: React.FC = () => {
   };
 
   return (
+    <main>
     <div className="dashboard-container">
       <div className="dashboard-header">
         <h2>Welcome, {user?.username}</h2>
@@ -102,6 +103,7 @@ const Dashboard: React.FC = () => {
     </div>
       )}
     </div>
+  </main>
   );
 };
 

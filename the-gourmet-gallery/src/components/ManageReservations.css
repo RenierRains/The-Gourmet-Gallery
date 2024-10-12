@@ -1,0 +1,37 @@
+.manage-reservations {
+    padding: 1rem;
+  }
+  
+  .message {
+    color: #a8552f;
+  }
+  
+  .reservations-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  .reservations-table th,
+  .reservations-table td {
+    border: 1px solid #444;
+    padding: 0.75rem;
+    text-align: left;
+  }
+  
+  .reservations-table th {
+    background-color: #2a1f1a;
+  }
+  
+  .delete-button {
+    background-color: #a8552f;
+    color: #e6d5c5;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .delete-button:hover {
+    background-color: #8f4a28;
+  }
