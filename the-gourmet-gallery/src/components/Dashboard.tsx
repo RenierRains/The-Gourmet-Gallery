@@ -2,7 +2,9 @@ import React, { useEffect, useState, useContext } from 'react';
 import reservationService from '../services/reservationService';
 import { AuthContext } from '../contexts/AuthContext';
 import './Dashboard.css';
-import { Trash2 } from 'lucide-react'; // Import an icon for the cancel button
+import { Trash2 } from 'lucide-react';
+import { User, Phone, Calendar, Clock, Users, MessageSquare } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface Reservation {
   id: number;
@@ -22,6 +24,8 @@ const Dashboard: React.FC = () => {
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<string>('');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -47,7 +51,6 @@ const Dashboard: React.FC = () => {
     if (window.confirm('Are you sure you want to cancel this reservation?')) {
       try {
         await reservationService.deleteReservation(id);
-        // Remove the cancelled reservation from the state
         setReservations(reservations.filter((res) => res.id !== id));
         setMessage('Reservation cancelled successfully.');
       } catch (error: any) {
@@ -59,47 +62,44 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard-container">
-      <h2>Welcome, {user?.username}</h2>
-      <button onClick={handleLogout} className="logout-button">Logout</button>
+      <div className="dashboard-header">
+        <h2>Welcome, {user?.username}</h2>
+        <button onClick={handleLogout} className="logout-button">Logout</button>
+      </div>
       <h3>Your Reservations</h3>
       {message && <p className="message">{message}</p>}
       {loading ? (
         <p>Loading reservations...</p>
       ) : reservations.length > 0 ? (
-        <table className="reservations-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Guests</th>
-              <th>Phone</th>
-              <th>Special Requests</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {reservations.map((reservation) => (
-              <tr key={reservation.id}>
-                <td>{reservation.date}</td>
-                <td>{reservation.time.slice(0, 5)}</td>
-                <td>{reservation.guests}</td>
-                <td>{reservation.phone}</td>
-                <td>{reservation.specialRequests || 'N/A'}</td>
-                <td>
-                  <button
-                    className="cancel-button"
-                    onClick={() => handleCancelReservation(reservation.id)}
-                    title="Cancel Reservation"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p>You have no reservations.</p>
+        <div className="reservations-grid">
+          {reservations.map((reservation) => (
+            <div className="reservation-card" key={reservation.id}>
+              <div className="reservation-card-header">
+                <h4>{reservation.date} at {reservation.time.slice(0, 5)}</h4>
+                <button
+                  className="cancel-button"
+                  onClick={() => handleCancelReservation(reservation.id)}
+                  title="Cancel Reservation"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
+              <div className="reservation-card-body">
+                <p><Users size={16} /> <strong>Guests:</strong> {reservation.guests}</p>
+                <p><Phone size={16} /> <strong>Phone:</strong> {reservation.phone}</p>
+                {reservation.specialRequests && (
+                  <p><MessageSquare size={16} /> <strong>Special Requests:</strong> {reservation.specialRequests}</p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : ( <div className="empty-state">
+      <p>You have no reservations.</p>
+      <button className="make-reservation-button" onClick={() => navigate('/reservation')}>
+        Make a Reservation
+      </button>
+    </div>
       )}
     </div>
   );

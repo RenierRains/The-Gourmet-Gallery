@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import TimePicker from 'react-time-picker';
-import 'react-time-picker/dist/TimePicker.css';
 import './ReservationForm.css';
 
 const ReservationForm: React.FC = () => {
@@ -20,8 +18,7 @@ const ReservationForm: React.FC = () => {
 
   const [formData, setFormData] = useState({
     phone: '',
-    date: new Date(), // Use Date object for date picker
-    time: '12:00',     // Default time
+    dateTime: new Date(), // Use Date object for date and time
     guests: 1,
     specialRequests: '',
   });
@@ -40,16 +37,16 @@ const ReservationForm: React.FC = () => {
     e.preventDefault();
 
     // Client-side validation
-    const { phone, date, time, guests } = formData;
-    if (!phone || !date || !time || !guests) {
+    const { phone, dateTime, guests } = formData;
+    if (!phone || !dateTime || !guests) {
       setMessage('Please fill in all required fields.');
       return;
     }
 
     const reservationData = {
       phone,
-      date: date.toISOString().split('T')[0], // Format date to YYYY-MM-DD
-      time,
+      date: dateTime.toISOString().split('T')[0], // Format date to YYYY-MM-DD
+      time: dateTime.toTimeString().split(' ')[0].slice(0, 5), // Format time to HH:mm
       guests,
       specialRequests: formData.specialRequests,
     };
@@ -61,8 +58,7 @@ const ReservationForm: React.FC = () => {
       // Reset form
       setFormData({
         phone: '',
-        date: new Date(),
-        time: '12:00',
+        dateTime: new Date(),
         guests: 1,
         specialRequests: '',
       });
@@ -93,20 +89,14 @@ const ReservationForm: React.FC = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="date">Date<span>*</span></label>
+          <label htmlFor="dateTime">Date and Time<span>*</span></label>
           <DatePicker
-            selected={formData.date}
-            onChange={(date) => handleChange('date', date)}
+            selected={formData.dateTime}
+            onChange={(date) => handleChange('dateTime', date)}
             minDate={new Date()}
-            dateFormat="yyyy-MM-dd"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="time">Time<span>*</span></label>
-          <TimePicker
-            onChange={(time) => handleChange('time', time)}
-            value={formData.time}
+            showTimeSelect
+            timeIntervals={15}
+            dateFormat="MMMM d, yyyy h:mm aa"
             required
           />
         </div>
