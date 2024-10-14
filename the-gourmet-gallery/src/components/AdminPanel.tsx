@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, NavLink } from 'react-router-dom';
 import ManageUsers from './ManageUsers';
 import ManageReservations from './ManageReservations';
 import './AdminPanel.css';
@@ -7,18 +7,40 @@ import './AdminPanel.css';
 const AdminPanel: React.FC = () => {
   return (
     <main>
-    <div className="admin-panel">
+        <div className="admin-panel">
       <nav className="admin-nav">
+        <h2>Admin Panel</h2>
         <ul>
-          <li><Link to="users">Manage Users</Link></li>
-          <li><Link to="reservations">Manage Reservations</Link></li>
+          <li>
+            <NavLink
+              to="users"
+              className={({ isActive }) => (isActive ? 'active-link' : '')}
+            >
+              Manage Users
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="reservations"
+              className={({ isActive }) => (isActive ? 'active-link' : '')}
+            >
+              Manage Reservations
+            </NavLink>
+          </li>
         </ul>
       </nav>
       <div className="admin-content">
         <Routes>
           <Route path="users" element={<ManageUsers />} />
           <Route path="reservations" element={<ManageReservations />} />
-          <Route path="/" element={<h2>Welcome to the Admin Panel</h2>} />
+          <Route
+            path="/"
+            element={
+              <div className="welcome-message">
+                <h2>Welcome to the Admin Panel</h2>
+              </div>
+            }
+          />
         </Routes>
       </div>
     </div>

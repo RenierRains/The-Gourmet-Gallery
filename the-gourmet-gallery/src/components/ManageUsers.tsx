@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import adminService from '../services/adminService';
 import './ManageUsers.css';
+import { Trash2 } from 'lucide-react';
 
 interface User {
   id: number;
@@ -48,7 +49,7 @@ const ManageUsers: React.FC = () => {
       <h2>Manage Users</h2>
       {message && <p className="message">{message}</p>}
       {loading ? (
-        <p>Loading users...</p>
+        <p className="loading-message">Loading users...</p>
       ) : users.length > 0 ? (
         <table className="users-table">
           <thead>
@@ -67,13 +68,14 @@ const ManageUsers: React.FC = () => {
                 <td>{user.username}</td>
                 <td>{user.email}</td>
                 <td>{user.isAdmin ? 'Yes' : 'No'}</td>
-                <td>
+                <td className="actions-cell">
                   {/* Add edit functionality if needed */}
                   <button
                     className="delete-button"
                     onClick={() => handleDeleteUser(user.id)}
+                    title="Delete User"
                   >
-                    Delete
+                    <Trash2 size={16} />
                   </button>
                 </td>
               </tr>

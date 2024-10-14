@@ -1,80 +1,107 @@
 .manage-reservations {
-    padding: 1rem;
-  }
-  
-  .message {
-    color: #a8552f;
-  }
-  
-  .reservations-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-  }
-  
-  .reservations-table th,
-  .reservations-table td {
-    border: 1px solid #444;
-    padding: 0.75rem;
-    text-align: left;
-  }
-  
-  .reservations-table th {
-    background-color: #2a1f1a;
-  }
-  
-  .delete-button {
-    background-color: #a8552f;
-    color: #e6d5c5;
-    border: none;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  
-  .delete-button:hover {
-    background-color: #8f4a28;
-  }
+  padding: 1rem;
+}
 
-.approve-button {
-  background-color: #28a745;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
+.manage-reservations h2 {
+  color: #a8552f;
+}
+
+.message {
+  color: #a8552f;
+  margin-bottom: 1rem;
+}
+
+.loading-message {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+}
+
+.reservations-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.reservations-table th,
+.reservations-table td {
+  border: 1px solid #444;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.reservations-table th {
+  background-color: #2a1f1a;
+  color: #e6d5c5;
+}
+
+.reservations-table tbody tr:nth-child(even) {
+  background-color: #222;
+}
+
+.status-badge {
+  padding: 0.25rem 0.5rem;
   border-radius: 4px;
-  margin-right: 0.5rem;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.status-badge.pending {
+  background-color: #f0ad4e;
+}
+
+.status-badge.approved {
+  background-color: #5cb85c;
+}
+
+.status-badge.completed {
+  background-color: #0275d8;
+}
+
+.status-badge.canceled {
+  background-color: #d9534f;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actions-cell button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #e6d5c5;
+}
+
+.actions-cell button:hover {
+  color: #fff;
 }
 
 .approve-button:hover {
-  background-color: #218838;
-}
-
-
-.complete-button {
-  background-color: #17a2b8;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  border-radius: 4px;
-  margin-right: 0.5rem;
+  color: #5cb85c;
 }
 
 .complete-button:hover {
-  background-color: #138496;
-}
-
-
-.cancel-button {
-  background-color: #dc3545;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  border-radius: 4px;
+  color: #0275d8;
 }
 
 .cancel-button:hover {
-  background-color: #c82333;
+  color: #d9534f;
+}
+
+.delete-button:hover {
+  color: #ff4d4d;
+}
+
+@media (max-width: 768px) {
+  .reservations-table {
+    font-size: 0.9rem;
+  }
+
+  .reservations-table th,
+  .reservations-table td {
+    padding: 0.5rem;
+  }
 }

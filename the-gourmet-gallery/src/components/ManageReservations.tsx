@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import adminService from '../services/adminService';
 import './ManageReservations.css';
+import { CheckCircle, Trash2, XCircle } from 'lucide-react';
 
 interface Reservation {
   id: number;
@@ -74,20 +75,19 @@ const ManageReservations: React.FC = () => {
       <h2>Manage Reservations</h2>
       {message && <p className="message">{message}</p>}
       {loading ? (
-        <p>Loading reservations...</p>
+        <p className="loading-message">Loading reservations...</p>
       ) : reservations.length > 0 ? (
         <table className="reservations-table">
           <thead>
             <tr>
               <th>ID</th>
               <th>User</th>
-              <th>Date</th>
-              <th>Time</th>
+              <th>Date & Time</th>
               <th>Guests</th>
               <th>Phone</th>
+              <th>Status</th>
               <th>Special Requests</th>
               <th>Actions</th>
-              <th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -95,50 +95,52 @@ const ManageReservations: React.FC = () => {
               <tr key={res.id}>
                 <td>{res.id}</td>
                 <td>{res.User.username}</td>
-                <td>{res.date}</td>
-                <td>{res.time.slice(0, 5)}</td>
+                <td>{res.date} at {res.time.slice(0, 5)}</td>
                 <td>{res.guests}</td>
                 <td>{res.phone}</td>
-                <td>{res.specialRequests || 'N/A'}</td>
                 <td>
-                  {/* Add edit functionality if needed */}
-                  <button
-                    className="delete-button"
-                    onClick={() => handleDeleteReservation(res.id)}
-                  >
-                    Delete
-                  </button>
+                  <span className={`status-badge ${res.status}`}>
+                    {res.status.toUpperCase()}
+                  </span>
                 </td>
-                <td>{res.status}</td>
-                {/* Actions */}
-                <td>
+                <td>{res.specialRequests || 'N/A'}</td>
+                <td className="actions-cell">
                   {res.status === 'pending' && (
                     <button
                       className="approve-button"
                       onClick={() => handleUpdateReservationStatus(res.id, 'approved')}
+                      title="Approve Reservation"
                     >
-                      Approve
+                      <CheckCircle size={16} />
                     </button>
                   )}
                   {res.status === 'approved' && (
                     <button
                       className="complete-button"
                       onClick={() => handleUpdateReservationStatus(res.id, 'completed')}
+                      title="Mark as Completed"
                     >
-                      Complete
+                      <CheckCircle size={16} />
                     </button>
                   )}
                   {res.status !== 'completed' && (
                     <button
                       className="cancel-button"
                       onClick={() => handleUpdateReservationStatus(res.id, 'canceled')}
+                      title="Cancel Reservation"
                     >
-                      Cancel
+                      <XCircle size={16} />
                     </button>
                   )}
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDeleteReservation(res.id)}
+                    title="Delete Reservation"
+                  >
+                    <Trash2 size={16} />
+                  </button>
                 </td>
               </tr>
-
             ))}
           </tbody>
         </table>

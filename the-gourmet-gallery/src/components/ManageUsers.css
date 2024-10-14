@@ -1,37 +1,67 @@
 .manage-users {
-    padding: 1rem;
-  }
-  
-  .message {
-    color: #a8552f;
-  }
-  
+  padding: 1rem;
+}
+
+.manage-users h2 {
+  color: #a8552f;
+}
+
+.message {
+  color: #a8552f;
+  margin-bottom: 1rem;
+}
+
+.loading-message {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.users-table th,
+.users-table td {
+  border: 1px solid #444;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.users-table th {
+  background-color: #2a1f1a;
+  color: #e6d5c5;
+}
+
+.users-table tbody tr:nth-child(even) {
+  background-color: #222;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actions-cell button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #e6d5c5;
+}
+
+.actions-cell button:hover {
+  color: #ff4d4d;
+}
+
+@media (max-width: 768px) {
   .users-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
+    font-size: 0.9rem;
   }
-  
+
   .users-table th,
   .users-table td {
-    border: 1px solid #444;
-    padding: 0.75rem;
-    text-align: left;
+    padding: 0.5rem;
   }
-  
-  .users-table th {
-    background-color: #2a1f1a;
-  }
-  
-  .delete-button {
-    background-color: #a8552f;
-    color: #e6d5c5;
-    border: none;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  
-  .delete-button:hover {
-    background-color: #8f4a28;
-  }
+}
