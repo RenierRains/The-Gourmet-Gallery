@@ -35,3 +35,46 @@
   .delete-button:hover {
     background-color: #8f4a28;
   }
+
+.approve-button {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+
+.approve-button:hover {
+  background-color: #218838;
+}
+
+
+.complete-button {
+  background-color: #17a2b8;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+
+.complete-button:hover {
+  background-color: #138496;
+}
+
+
+.cancel-button {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.cancel-button:hover {
+  background-color: #c82333;
+}

@@ -37,6 +37,14 @@ const Reservation = sequelize.define('Reservation', {
     type: DataTypes.TEXT,
     allowNull: true,
   },
+  status: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'pending',
+    validate: {
+      isIn: [['pending', 'approved', 'completed', 'canceled']],
+    },
+  },
 });
 
 // relationships

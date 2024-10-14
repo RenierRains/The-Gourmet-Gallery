@@ -74,9 +74,28 @@ const deleteReservation = async (id: number) => {
   return response.data;
 };
 
+const updateReservation = async (id: number, data: any) => {
+  const token = localStorage.getItem('user');
+
+  if (!token) {
+    throw new Error('User not authenticated');
+  }
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.put(`${API_URL}reservations/${id}`, data, config);
+  return response.data;
+};
+
 export default {
   getUsers,
   deleteUser,
   getReservations,
   deleteReservation,
+  updateReservation,
 };

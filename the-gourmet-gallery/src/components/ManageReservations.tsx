@@ -11,6 +11,7 @@ interface Reservation {
   time: string;
   guests: number;
   specialRequests?: string;
+  status: string;
   userId: number;
   User: {
     username: string;
@@ -52,6 +53,22 @@ const ManageReservations: React.FC = () => {
     }
   };
 
+  const handleUpdateReservationStatus = async (id: number, status: string) => {
+    if (window.confirm(`Are you sure you want to set this reservation to '${status}'?`)) {
+      try {
+        await adminService.updateReservation(id, { status });
+        // update
+        setReservations(reservations.map((res) =>
+          res.id === id ? { ...res, status } : res
+        ));
+        setMessage(`Reservation status updated to '${status}'.`);
+      } catch (error: any) {
+        console.error('Error updating reservation:', error);
+        setMessage('Failed to update reservation status.');
+      }
+    }
+  };
+
   return (
     <div className="manage-reservations">
       <h2>Manage Reservations</h2>
@@ -70,6 +87,7 @@ const ManageReservations: React.FC = () => {
               <th>Phone</th>
               <th>Special Requests</th>
               <th>Actions</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -91,7 +109,36 @@ const ManageReservations: React.FC = () => {
                     Delete
                   </button>
                 </td>
+                <td>{res.status}</td>
+                {/* Actions */}
+                <td>
+                  {res.status === 'pending' && (
+                    <button
+                      className="approve-button"
+                      onClick={() => handleUpdateReservationStatus(res.id, 'approved')}
+                    >
+                      Approve
+                    </button>
+                  )}
+                  {res.status === 'approved' && (
+                    <button
+                      className="complete-button"
+                      onClick={() => handleUpdateReservationStatus(res.id, 'completed')}
+                    >
+                      Complete
+                    </button>
+                  )}
+                  {res.status !== 'completed' && (
+                    <button
+                      className="cancel-button"
+                      onClick={() => handleUpdateReservationStatus(res.id, 'canceled')}
+                    >
+                      Cancel
+                    </button>
+                  )}
+                </td>
               </tr>
+
             ))}
           </tbody>
         </table>

@@ -28,13 +28,14 @@ try {
     guests,
     specialRequests,
     UserId: req.user.id,
+    status: 'pending', // Set status to 'pending'
     });
 
     res.status(201).json({ message: 'Reservation created successfully', reservation });
-} catch (error) {
-    console.error('Error creating reservation:', error);
-    res.status(500).json({ message: 'Server error', error });
-}
+  } catch (error) {
+      console.error('Error creating reservation:', error);
+      res.status(500).json({ message: 'Server error', error });
+  }
 };
 
 exports.getUserReservations = async (req, res) => {
@@ -68,6 +69,10 @@ exports.getUserReservations = async (req, res) => {
   
       if (!reservation) {
         return res.status(404).json({ message: 'Reservation not found' });
+      }
+
+      if (reservation.status === 'approved') {
+        return res.status(403).json({ message: 'You cannot cancel an approved reservation.' });
       }
   
       // delete

@@ -94,7 +94,7 @@ exports.getAllReservations = async (req, res) => {
 exports.updateReservation = async (req, res) => {
   try {
     const reservationId = req.params.id;
-    const { date, time, guests, specialRequests } = req.body;
+    const { date, time, guests, specialRequests, status } = req.body;
 
     const reservation = await Reservation.findByPk(reservationId);
     if (!reservation) {
@@ -105,6 +105,14 @@ exports.updateReservation = async (req, res) => {
     reservation.time = time || reservation.time;
     reservation.guests = guests || reservation.guests;
     reservation.specialRequests = specialRequests || reservation.specialRequests;
+    
+    if (status) {
+      if (['pending', 'approved', 'completed', 'canceled'].includes(status)) {
+        reservation.status = status;
+      } else {
+        return res.status(400).json({ message: 'Invalid status value' });
+      }
+    }
 
     await reservation.save();
 
@@ -114,7 +122,6 @@ exports.updateReservation = async (req, res) => {
     res.status(500).json({ message: 'Server error', error });
   }
 };
-
 exports.deleteReservation = async (req, res) => {
   try {
     const reservationId = req.params.id;

@@ -15,6 +15,7 @@ interface Reservation {
   time: string;
   guests: number;
   specialRequests?: string;
+  status: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -77,13 +78,23 @@ const Dashboard: React.FC = () => {
             <div className="reservation-card" key={reservation.id}>
               <div className="reservation-card-header">
                 <h4>{reservation.date} at {reservation.time.slice(0, 5)}</h4>
-                <button
-                  className="cancel-button"
-                  onClick={() => handleCancelReservation(reservation.id)}
-                  title="Cancel Reservation"
-                >
-                  <Trash2 size={16} />
-                </button>
+                {reservation.status !== 'approved' ? (
+                  <button
+                    className="cancel-button"
+                    onClick={() => handleCancelReservation(reservation.id)}
+                    title="Cancel Reservation"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                ) : (
+                  <button
+                    className="cancel-button disabled"
+                    title="Cannot cancel approved reservation"
+                    disabled
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                )}
               </div>
               <div className="reservation-card-body">
                 <p><Users size={16} /> <strong>Guests:</strong> {reservation.guests}</p>
@@ -91,6 +102,7 @@ const Dashboard: React.FC = () => {
                 {reservation.specialRequests && (
                   <p><MessageSquare size={16} /> <strong>Special Requests:</strong> {reservation.specialRequests}</p>
                 )}
+                <p><strong>Status:</strong> {reservation.status}</p>
               </div>
             </div>
           ))}
