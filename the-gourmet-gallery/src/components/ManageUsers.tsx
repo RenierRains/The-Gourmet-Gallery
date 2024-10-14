@@ -12,14 +12,20 @@ interface User {
 
 const ManageUsers: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]); 
   const [loading, setLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<string>('');
+
+
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [filterAdminStatus, setFilterAdminStatus] = useState<string>('all');
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const data = await adminService.getUsers();
         setUsers(data);
+        setFilteredUsers(data);
         setLoading(false);
       } catch (error: any) {
         console.error('Error fetching users:', error);
@@ -30,6 +36,27 @@ const ManageUsers: React.FC = () => {
 
     fetchUsers();
   }, []);
+
+  
+  useEffect(() => {
+    let tempUsers = [...users];
+
+  
+    if (searchQuery) {
+      tempUsers = tempUsers.filter((user) =>
+        user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+
+    if (filterAdminStatus !== 'all') {
+      const isAdmin = filterAdminStatus === 'admin';
+      tempUsers = tempUsers.filter((user) => user.isAdmin === isAdmin);
+    }
+
+    setFilteredUsers(tempUsers);
+  }, [searchQuery, filterAdminStatus, users]);
 
   const handleDeleteUser = async (id: number) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
@@ -48,9 +75,30 @@ const ManageUsers: React.FC = () => {
     <div className="manage-users">
       <h2>Manage Users</h2>
       {message && <p className="message">{message}</p>}
+      
+      {/* Search and Filter Inputs */}
+      <div className="search-filter-container">
+        <input
+          type="text"
+          placeholder="Search by username or email"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="search-input"
+        />
+        <select
+          value={filterAdminStatus}
+          onChange={(e) => setFilterAdminStatus(e.target.value)}
+          className="filter-select"
+        >
+          <option value="all">All Users</option>
+          <option value="admin">Admins</option>
+          <option value="non-admin">Non-Admins</option>
+        </select>
+      </div>
+
       {loading ? (
         <p className="loading-message">Loading users...</p>
-      ) : users.length > 0 ? (
+      ) : filteredUsers.length > 0 ? (
         <table className="users-table">
           <thead>
             <tr>
@@ -62,14 +110,13 @@ const ManageUsers: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
+            {filteredUsers.map((user) => (
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.username}</td>
                 <td>{user.email}</td>
                 <td>{user.isAdmin ? 'Yes' : 'No'}</td>
                 <td className="actions-cell">
-                  {/* Add edit functionality if needed */}
                   <button
                     className="delete-button"
                     onClick={() => handleDeleteUser(user.id)}

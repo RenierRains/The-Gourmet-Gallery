@@ -13,7 +13,6 @@ interface Reservation {
   guests: number;
   specialRequests?: string;
   status: string;
-  userId: number;
   User: {
     username: string;
     email: string;
@@ -22,14 +21,20 @@ interface Reservation {
 
 const ManageReservations: React.FC = () => {
   const [reservations, setReservations] = useState<Reservation[]>([]);
+  const [filteredReservations, setFilteredReservations] = useState<Reservation[]>([]); 
   const [loading, setLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<string>('');
+
+
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [filterStatus, setFilterStatus] = useState<string>('all');
 
   useEffect(() => {
     const fetchReservations = async () => {
       try {
         const data = await adminService.getReservations();
         setReservations(data);
+        setFilteredReservations(data);
         setLoading(false);
       } catch (error: any) {
         console.error('Error fetching reservations:', error);
@@ -40,6 +45,27 @@ const ManageReservations: React.FC = () => {
 
     fetchReservations();
   }, []);
+
+
+  useEffect(() => {
+    let tempReservations = [...reservations];
+
+
+    if (searchQuery) {
+      tempReservations = tempReservations.filter((res) =>
+        res.User.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        res.phone.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        res.date.includes(searchQuery)
+      );
+    }
+
+
+    if (filterStatus !== 'all') {
+      tempReservations = tempReservations.filter((res) => res.status === filterStatus);
+    }
+
+    setFilteredReservations(tempReservations);
+  }, [searchQuery, filterStatus, reservations]);
 
   const handleDeleteReservation = async (id: number) => {
     if (window.confirm('Are you sure you want to delete this reservation?')) {
@@ -58,10 +84,12 @@ const ManageReservations: React.FC = () => {
     if (window.confirm(`Are you sure you want to set this reservation to '${status}'?`)) {
       try {
         await adminService.updateReservation(id, { status });
-        // update
-        setReservations(reservations.map((res) =>
-          res.id === id ? { ...res, status } : res
-        ));
+
+        setReservations(
+          reservations.map((res) =>
+            res.id === id ? { ...res, status } : res
+          )
+        );
         setMessage(`Reservation status updated to '${status}'.`);
       } catch (error: any) {
         console.error('Error updating reservation:', error);
@@ -74,9 +102,32 @@ const ManageReservations: React.FC = () => {
     <div className="manage-reservations">
       <h2>Manage Reservations</h2>
       {message && <p className="message">{message}</p>}
+
+      {/* Search and Filter Inputs */}
+      <div className="search-filter-container">
+        <input
+          type="text"
+          placeholder="Search by username, phone, or date"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="search-input"
+        />
+        <select
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+          className="filter-select"
+        >
+          <option value="all">All Statuses</option>
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="completed">Completed</option>
+          <option value="canceled">Canceled</option>
+        </select>
+      </div>
+
       {loading ? (
         <p className="loading-message">Loading reservations...</p>
-      ) : reservations.length > 0 ? (
+      ) : filteredReservations.length > 0 ? (
         <table className="reservations-table">
           <thead>
             <tr>
@@ -91,11 +142,13 @@ const ManageReservations: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {reservations.map((res) => (
+            {filteredReservations.map((res) => (
               <tr key={res.id}>
                 <td>{res.id}</td>
                 <td>{res.User.username}</td>
-                <td>{res.date} at {res.time.slice(0, 5)}</td>
+                <td>
+                  {res.date} at {res.time.slice(0, 5)}
+                </td>
                 <td>{res.guests}</td>
                 <td>{res.phone}</td>
                 <td>
