@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route, NavLink } from 'react-router-dom';
 import ManageUsers from './ManageUsers';
 import ManageReservations from './ManageReservations';
+import ManageMenuItems from './ManageMenuItems';
 import './AdminPanel.css';
 
 const AdminPanel: React.FC = () => {
@@ -27,12 +28,21 @@ const AdminPanel: React.FC = () => {
               Manage Reservations
             </NavLink>
           </li>
+          <li>
+              <NavLink
+                to="menu-items"
+                className={({ isActive }) => (isActive ? 'active-link' : '')}
+              >
+                Manage Menu Items
+              </NavLink>
+            </li>
         </ul>
       </nav>
       <div className="admin-content">
         <Routes>
           <Route path="users" element={<ManageUsers />} />
           <Route path="reservations" element={<ManageReservations />} />
+          <Route path="menu-items/*" element={<ManageMenuItems />} />
           <Route
             path="/"
             element={

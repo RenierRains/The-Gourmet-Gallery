@@ -11,7 +11,7 @@ const MenuItem = sequelize.define('MenuItem', {
     allowNull: false,
   },
   image: {
-    type: DataTypes.STRING, // file path
+    type: DataTypes.STRING, // File path
     allowNull: false,
   },
   category: {
@@ -22,6 +22,8 @@ const MenuItem = sequelize.define('MenuItem', {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
   },
+}, {
+  timestamps: true,
 });
 
 module.exports = MenuItem;

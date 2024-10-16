@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api/admin/';
+const MENU_API_URL = 'http://localhost:5000/api/menu/';
 
 const getUsers = async () => {
   const token = localStorage.getItem('user');
@@ -92,10 +93,76 @@ const updateReservation = async (id: number, data: any) => {
   return response.data;
 };
 
+const getMenuItems = async () => {
+  const token = localStorage.getItem('user');
+
+  if (!token) {
+    throw new Error('User not authenticated');
+  }
+
+  const response = await axios.get(`${MENU_API_URL}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+const createMenuItem = async (formData: FormData) => {
+  const token = localStorage.getItem('user');
+
+  if (!token) {
+    throw new Error('User not authenticated');
+  }
+
+  const response = await axios.post(`${MENU_API_URL}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+const updateMenuItem = async (id: number, formData: FormData) => {
+  const token = localStorage.getItem('user');
+
+  if (!token) {
+    throw new Error('User not authenticated');
+  }
+
+  const response = await axios.put(`${MENU_API_URL}${id}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+const deleteMenuItem = async (id: number) => {
+  const token = localStorage.getItem('user');
+
+  if (!token) {
+    throw new Error('User not authenticated');
+  }
+
+  const response = await axios.delete(`${MENU_API_URL}${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
 export default {
   getUsers,
   deleteUser,
   getReservations,
   deleteReservation,
   updateReservation,
+  getMenuItems,
+  createMenuItem,
+  updateMenuItem,
+  deleteMenuItem,
 };
