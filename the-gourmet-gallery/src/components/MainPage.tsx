@@ -63,12 +63,13 @@ const MainPage: React.FC = () => {
       <section id="home" className="home-section">
         <div className="overlay"></div>
         <div className="home-content">
-          <h1>The Gourmet Gallery</h1>
+          {/*  */}
+          <img src="/logo.png" alt="The Gourmet Gallery" className="main-logo" />
           <p>Experience culinary artistry in every bite</p>
           <button onClick={handleReservationClick} className="explore-button">
             Make a Reservation <ChevronRight size={20} />
           </button>
-          </div>
+        </div>
       </section>
 
       <section id="menu">

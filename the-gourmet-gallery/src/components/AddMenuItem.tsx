@@ -89,7 +89,7 @@ const AddMenuItem: React.FC<AddMenuItemProps> = ({ onClose, onAdd }) => {
             </select>
           </label>
           <label>
-            Price ($):
+            Price (₱):
             <input
               type="number"
               step="0.01"
