@@ -65,7 +65,7 @@ const MainPage: React.FC = () => {
         <div className="home-content">
           {/*  */}
           <img src="/logo.png" alt="The Gourmet Gallery" className="main-logo" />
-          <p>Experience culinary artistry in every bite</p>
+          <p>Experience culinary artistry in every bite.</p>
           <button onClick={handleReservationClick} className="explore-button">
             Make a Reservation <ChevronRight size={20} />
           </button>
@@ -119,10 +119,10 @@ const MainPage: React.FC = () => {
         <h2>Contact Us</h2>
         <div className="contact-info">
           <div>
-            <p>123 Gourmet Street, Foodville, FC 12345</p>
+            <p>Dagupan City, Pangasinan</p>
           </div>
           <div>
-            <p>(123) 456-7890</p>
+            <p>(+63) 968833410</p>
           </div>
           <div>
             <p>Mon-Sat: 5:00 PM - 11:00 PM<br />Sun: Closed</p>

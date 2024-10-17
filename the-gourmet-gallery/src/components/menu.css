@@ -26,7 +26,8 @@ h1 {
 .filter-button {
   padding: 10px 15px;
   border: none;
-  background-color: #f0f0f0;
+  background-color: #1c1410;
+  color: #e6d5c5;
   cursor: pointer;
   font-size: 1rem;
   border-radius: 5px;
@@ -34,13 +35,13 @@ h1 {
 }
 
 .filter-button:hover {
-  background-color: #ddd;
+  background-color: #1c1410;
   transform: translateY(-2px);
 }
 
 .filter-button.active {
-  background-color: #007bff;
-  color: #fff;
+  background-color: #a8552f;
+  color: #e6d5c5;
 }
 
 .menu-cards {
@@ -51,7 +52,7 @@ h1 {
 
 .fixed-size-card {
   width: 300px;
-  background-color: #fff;
+  background-color: #1c1410;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -79,12 +80,12 @@ h1 {
 
 .card-text {
   font-size: 1rem;
-  color: #555;
+  color: #e6d5c5;
   margin-bottom: 10px;
 }
 
 .card-price {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #007bff;
+  color: #e6d5c5;
 }

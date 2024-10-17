@@ -31,7 +31,8 @@ const AppContent: React.FC = () => {
     <div>
       <header>
         <nav>
-          <div className="logo">The Gourmet Gallery</div>
+          {/* Replace div.logo with img */}
+          <img src="/logo-header.png" alt="The Gourmet Gallery" className="header-logo" />
           <button className="menu-button" onClick={toggleMenu}>
             {isMenuOpen ? <X /> : <IconMenu />}
           </button>
