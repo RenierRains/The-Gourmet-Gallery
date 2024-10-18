@@ -1,13 +1,21 @@
 .manage-reservations {
   padding: 1rem;
+  background-color: #2a1f1a; /* bg color */
+  border-radius: 8px;
 }
 
 .manage-reservations h2 {
   color: #a8552f;
+  margin-bottom: 1rem;
 }
 
 .message {
-  color: #a8552f;
+  color: #4caf50;
+  margin-bottom: 1rem;
+}
+
+.error-message {
+  color: #ff4d4d;
   margin-bottom: 1rem;
 }
 
@@ -24,15 +32,24 @@
   padding: 0.5rem;
   border: 1px solid #444;
   border-radius: 4px;
-  background-color: #2a1f1a;
+  background-color: #3a2f28;
   color: #e6d5c5;
+}
+
+.search-input::placeholder {
+  color: #b3a395;
 }
 
 .filter-select {
   padding: 0.5rem;
   border: 1px solid #444;
   border-radius: 4px;
-  background-color: #2a1f1a;
+  background-color: #3a2f28;
+  color: #e6d5c5;
+}
+
+.filter-select option {
+  background-color: #3a2f28;
   color: #e6d5c5;
 }
 
@@ -40,6 +57,30 @@
   text-align: center;
   margin-top: 2rem;
   font-size: 1.2rem;
+  color: #e6d5c5;
+}
+
+.export-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.export-button {
+  background-color: #0275d8;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.export-button:hover {
+  background-color: #025aa5;
 }
 
 .reservations-table {
@@ -98,6 +139,7 @@
   border: none;
   cursor: pointer;
   color: #e6d5c5;
+  transition: color 0.3s ease;
 }
 
 .actions-cell button:hover {
@@ -105,24 +147,34 @@
 }
 
 .approve-button:hover {
-  color: #5cb85c;
+  color: #5cb85c; /* green? */
 }
 
 .complete-button:hover {
-  color: #0275d8;
+  color: #0275d8; /* blue? */
 }
 
 .cancel-button:hover {
-  color: #d9534f;
+  color: #d9534f; /* red? */
 }
 
 .delete-button:hover {
-  color: #ff4d4d;
+  color: #ff4d4d; /* bright red.. */
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
-  .reservations-table {
-    font-size: 0.9rem;
+  .search-filter-container {
+    flex-direction: column;
+  }
+
+  .export-buttons {
+    flex-direction: column;
+  }
+
+  .export-button {
+    width: 100%;
+    justify-content: center;
   }
 
   .reservations-table th,

@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api/admin/';
 const MENU_API_URL = 'http://localhost:5000/api/menu/';
+const RESERVATION_API_URL = 'http://localhost:5000/api/reservations/';
 
 const getUsers = async () => {
   const token = localStorage.getItem('user');
@@ -155,6 +156,24 @@ const deleteMenuItem = async (id: number) => {
   return response.data;
 };
 
+const exportReservations = async (format: 'csv' | 'xlsx') => {
+  const token = localStorage.getItem('user');
+
+  if (!token) {
+    throw new Error('User not authenticated');
+  }
+
+  const response = await axios.get(`${RESERVATION_API_URL}export`, {
+    params: { format },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    responseType: 'blob', // Important for file downloads
+  });
+
+  return response.data;
+};
+
 export default {
   getUsers,
   deleteUser,
@@ -165,4 +184,5 @@ export default {
   createMenuItem,
   updateMenuItem,
   deleteMenuItem,
+  exportReservations,
 };

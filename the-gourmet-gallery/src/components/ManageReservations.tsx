@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import adminService from '../services/adminService';
 import './ManageReservations.css';
-import { CheckCircle, Trash2, XCircle } from 'lucide-react';
+import { CheckCircle, Trash2, XCircle, Download } from 'lucide-react';
+import { saveAs } from 'file-saver'; 
 
 interface Reservation {
   id: number;
@@ -21,10 +22,10 @@ interface Reservation {
 
 const ManageReservations: React.FC = () => {
   const [reservations, setReservations] = useState<Reservation[]>([]);
-  const [filteredReservations, setFilteredReservations] = useState<Reservation[]>([]); 
+  const [filteredReservations, setFilteredReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<string>('');
-
+  const [error, setError] = useState<string>('');
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
@@ -38,7 +39,7 @@ const ManageReservations: React.FC = () => {
         setLoading(false);
       } catch (error: any) {
         console.error('Error fetching reservations:', error);
-        setMessage('Failed to load reservations.');
+        setError('Failed to load reservations.');
         setLoading(false);
       }
     };
@@ -46,10 +47,8 @@ const ManageReservations: React.FC = () => {
     fetchReservations();
   }, []);
 
-
   useEffect(() => {
     let tempReservations = [...reservations];
-
 
     if (searchQuery) {
       tempReservations = tempReservations.filter((res) =>
@@ -58,7 +57,6 @@ const ManageReservations: React.FC = () => {
         res.date.includes(searchQuery)
       );
     }
-
 
     if (filterStatus !== 'all') {
       tempReservations = tempReservations.filter((res) => res.status === filterStatus);
@@ -75,7 +73,7 @@ const ManageReservations: React.FC = () => {
         setMessage('Reservation deleted successfully.');
       } catch (error: any) {
         console.error('Error deleting reservation:', error);
-        setMessage('Failed to delete reservation.');
+        setError('Failed to delete reservation.');
       }
     }
   };
@@ -93,8 +91,21 @@ const ManageReservations: React.FC = () => {
         setMessage(`Reservation status updated to '${status}'.`);
       } catch (error: any) {
         console.error('Error updating reservation:', error);
-        setMessage('Failed to update reservation status.');
+        setError('Failed to update reservation status.');
       }
+    }
+  };
+
+  // export
+  const handleExport = async (format: 'csv' | 'xlsx') => {
+    try {
+      const blob = await adminService.exportReservations(format);
+      const fileName = `reservations.${format}`;
+      saveAs(blob, fileName);
+      setMessage(`Reservations exported successfully as ${fileName}.`);
+    } catch (error: any) {
+      console.error('Error exporting reservations:', error);
+      setError('Failed to export reservations.');
     }
   };
 
@@ -102,6 +113,7 @@ const ManageReservations: React.FC = () => {
     <div className="manage-reservations">
       <h2>Manage Reservations</h2>
       {message && <p className="message">{message}</p>}
+      {error && <p className="error-message">{error}</p>}
 
       {/* Search and Filter Inputs */}
       <div className="search-filter-container">
@@ -123,6 +135,16 @@ const ManageReservations: React.FC = () => {
           <option value="completed">Completed</option>
           <option value="canceled">Canceled</option>
         </select>
+      </div>
+
+      {/* Export Buttons */}
+      <div className="export-buttons">
+        <button onClick={() => handleExport('csv')} className="export-button">
+          <Download size={16} /> Export CSV
+        </button>
+        <button onClick={() => handleExport('xlsx')} className="export-button">
+          <Download size={16} /> Export XLSX
+        </button>
       </div>
 
       {loading ? (
