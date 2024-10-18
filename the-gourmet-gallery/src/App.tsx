@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import AppContent from './AppContent';
+import './globals.css';
 
 const App: React.FC = () => {
   return (

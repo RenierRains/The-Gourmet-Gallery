@@ -1,7 +1,6 @@
-
 .admin-panel {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
   background-color: #1c1410;
 }
 
@@ -11,30 +10,43 @@
   padding: 2rem 1rem;
   color: #e6d5c5;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .admin-panel .admin-nav h2 {
   margin-bottom: 2rem;
   color: #a8552f;
+  text-align: center;
 }
 
 .admin-panel .admin-nav ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: block; /* Ensure vertical stacking */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .admin-panel .admin-nav ul li {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .admin-panel .admin-nav ul li a {
   color: #e6d5c5;
   text-decoration: none;
-  padding: 0.75rem 1rem;
+  padding: 1rem 1rem;
   display: block;
   border-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .admin-panel .admin-nav ul li a:hover,
@@ -48,11 +60,57 @@
   padding: 2rem;
   background-color: #1c1410;
   color: #e6d5c5;
+  overflow-y: auto;
+}
+
+html {
+  overflow-y: scroll;
 }
 
 .admin-panel .welcome-message {
   text-align: center;
   margin-top: 5rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pagination-button {
+  background-color: #a8552f;
+  color: #ffffff;
+  border: 1px solid #a8552f;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.pagination-button:hover {
+  background-color: #884d1c;
+}
+
+.pagination-button.active {
+  background-color: #a8552f;
+  color: #ffffff;
+  border-color: #a8552f;
+}
+
+.pagination-button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.pagination-ellipsis {
+  padding: 0.5rem 0.75rem;
+  color: #e6d5c5;
 }
 
 @media (max-width: 768px) {
@@ -72,7 +130,7 @@
   }
 
   .admin-panel .admin-nav ul {
-    display: block; /* Ensure it remains vertical on small screens */
+    flex-direction: column;
   }
 
   .admin-panel .admin-nav ul li {
@@ -80,6 +138,18 @@
   }
 
   .admin-panel .admin-nav ul li a {
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+
+  .admin-panel .admin-content {
+    padding: 1rem;
+  }
+
+  .reservations-table th,
+  .reservations-table td,
+  .users-table th,
+  .users-table td {
+    padding: 0.5rem;
   }
 }

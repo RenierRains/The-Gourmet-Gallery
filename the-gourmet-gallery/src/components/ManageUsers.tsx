@@ -15,10 +15,14 @@ const ManageUsers: React.FC = () => {
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]); 
   const [loading, setLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<string>('');
-
+  const [error, setError] = useState<string>('');
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filterAdminStatus, setFilterAdminStatus] = useState<string>('all');
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const usersPerPage = 20;
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -29,7 +33,7 @@ const ManageUsers: React.FC = () => {
         setLoading(false);
       } catch (error: any) {
         console.error('Error fetching users:', error);
-        setMessage('Failed to load users.');
+        setError('Failed to load users.');
         setLoading(false);
       }
     };
@@ -37,11 +41,9 @@ const ManageUsers: React.FC = () => {
     fetchUsers();
   }, []);
 
-  
   useEffect(() => {
     let tempUsers = [...users];
 
-  
     if (searchQuery) {
       tempUsers = tempUsers.filter((user) =>
         user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -49,13 +51,13 @@ const ManageUsers: React.FC = () => {
       );
     }
 
-
     if (filterAdminStatus !== 'all') {
       const isAdmin = filterAdminStatus === 'admin';
       tempUsers = tempUsers.filter((user) => user.isAdmin === isAdmin);
     }
 
     setFilteredUsers(tempUsers);
+    setCurrentPage(1); 
   }, [searchQuery, filterAdminStatus, users]);
 
   const handleDeleteUser = async (id: number) => {
@@ -66,16 +68,87 @@ const ManageUsers: React.FC = () => {
         setMessage('User deleted successfully.');
       } catch (error: any) {
         console.error('Error deleting user:', error);
-        setMessage('Failed to delete user.');
+        setError('Failed to delete user.');
       }
     }
+  };
+
+  // pagination
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+  const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+  const renderPagination = () => {
+    const pageNumbers: number[] = [];
+
+    // limit
+    const maxPageNumbersToShow = 5;
+    let startPage = Math.max(currentPage - Math.floor(maxPageNumbersToShow / 2), 1);
+    let endPage = startPage + maxPageNumbersToShow - 1;
+
+    if (endPage > totalPages) {
+      endPage = totalPages;
+      startPage = Math.max(endPage - maxPageNumbersToShow + 1, 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(i);
+    }
+
+    return (
+      <div className="pagination">
+        <button
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="pagination-button"
+        >
+          &laquo; Prev
+        </button>
+        {startPage > 1 && (
+          <>
+            <button onClick={() => paginate(1)} className="pagination-button">
+              1
+            </button>
+            {startPage > 2 && <span className="pagination-ellipsis">...</span>}
+          </>
+        )}
+        {pageNumbers.map((number) => (
+          <button
+            key={number}
+            onClick={() => paginate(number)}
+            className={`pagination-button ${currentPage === number ? 'active' : ''}`}
+          >
+            {number}
+          </button>
+        ))}
+        {endPage < totalPages && (
+          <>
+            {endPage < totalPages - 1 && <span className="pagination-ellipsis">...</span>}
+            <button onClick={() => paginate(totalPages)} className="pagination-button">
+              {totalPages}
+            </button>
+          </>
+        )}
+        <button
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="pagination-button"
+        >
+          Next &raquo;
+        </button>
+      </div>
+    );
   };
 
   return (
     <div className="manage-users">
       <h2>Manage Users</h2>
       {message && <p className="message">{message}</p>}
-      
+      {error && <p className="error-message">{error}</p>}
+
       {/* Search and Filter Inputs */}
       <div className="search-filter-container">
         <input
@@ -99,36 +172,41 @@ const ManageUsers: React.FC = () => {
       {loading ? (
         <p className="loading-message">Loading users...</p>
       ) : filteredUsers.length > 0 ? (
-        <table className="users-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Admin</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredUsers.map((user) => (
-              <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{user.username}</td>
-                <td>{user.email}</td>
-                <td>{user.isAdmin ? 'Yes' : 'No'}</td>
-                <td className="actions-cell">
-                  <button
-                    className="delete-button"
-                    onClick={() => handleDeleteUser(user.id)}
-                    title="Delete User"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </td>
+        <>
+          <table className="users-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Admin</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {currentUsers.map((user) => (
+                <tr key={user.id}>
+                  <td>{user.id}</td>
+                  <td>{user.username}</td>
+                  <td>{user.email}</td>
+                  <td>{user.isAdmin ? 'Yes' : 'No'}</td>
+                  <td className="actions-cell">
+                    <button
+                      className="delete-button"
+                      onClick={() => handleDeleteUser(user.id)}
+                      title="Delete User"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* Pagination Controls */}
+          {renderPagination()}
+        </>
       ) : (
         <p>No users found.</p>
       )}
