@@ -138,3 +138,8 @@ exports.getUserReservations = async (req, res) => {
       res.status(500).json({ message: 'Server error while exporting reservations.', error });
     }
   };
+
+  const getPendingReservationsCount = asyncHandler(async (req, res) => {
+    const count = await Reservation.countDocuments({ status: 'pending' });
+    res.json({ count });
+  });

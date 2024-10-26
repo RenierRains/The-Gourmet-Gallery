@@ -1,11 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, NavLink } from 'react-router-dom';
 import ManageUsers from './ManageUsers';
 import ManageReservations from './ManageReservations';
 import ManageMenuItems from './ManageMenuItems';
+import adminService from '../services/adminService';
 import './AdminPanel.css';
 
 const AdminPanel: React.FC = () => {
+  const [pendingCount, setPendingCount] = useState<number>(0);
+
+  const fetchPendingCount = async () => {
+    try {
+      const count = await adminService.getPendingReservationsCount();
+      setPendingCount(count);
+    } catch (error) {
+      console.error('Error fetching pending reservations count:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPendingCount();
+
+    // Optional: Polling interval to refresh count every minute
+    const interval = setInterval(fetchPendingCount, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <main>
       <div className="admin-panel">
@@ -17,7 +38,7 @@ const AdminPanel: React.FC = () => {
                 to="users"
                 className={({ isActive }) => (isActive ? 'active-link' : '')}
               >
-                Manage Users
+                Users
               </NavLink>
             </li>
             <li>
@@ -25,7 +46,10 @@ const AdminPanel: React.FC = () => {
                 to="reservations"
                 className={({ isActive }) => (isActive ? 'active-link' : '')}
               >
-                Manage Reservations
+                Reservations
+                {pendingCount > 0 && (
+                  <span className="notification-badge">{pendingCount}</span>
+                )}
               </NavLink>
             </li>
             <li>
@@ -33,7 +57,7 @@ const AdminPanel: React.FC = () => {
                 to="menu-items"
                 className={({ isActive }) => (isActive ? 'active-link' : '')}
               >
-                Manage Menu Items
+                Menu Items
               </NavLink>
             </li>
           </ul>
@@ -41,7 +65,12 @@ const AdminPanel: React.FC = () => {
         <div className="admin-content">
           <Routes>
             <Route path="users" element={<ManageUsers />} />
-            <Route path="reservations" element={<ManageReservations />} />
+            <Route
+              path="reservations"
+              element={
+                <ManageReservations refreshPendingCount={fetchPendingCount} />
+              }
+            />
             <Route path="menu-items/*" element={<ManageMenuItems />} />
             <Route
               path="/"

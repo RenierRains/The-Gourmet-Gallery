@@ -20,7 +20,11 @@ interface Reservation {
   };
 }
 
-const ManageReservations: React.FC = () => {
+interface ManageReservationsProps {
+  refreshPendingCount: () => void;
+}
+
+const ManageReservations: React.FC<ManageReservationsProps> = ({ refreshPendingCount }) => {
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [filteredReservations, setFilteredReservations] = useState<Reservation[]>([]); 
   const [loading, setLoading] = useState<boolean>(true);
@@ -70,33 +74,37 @@ const ManageReservations: React.FC = () => {
     setCurrentPage(1); 
   }, [searchQuery, filterStatus, reservations]);
 
-  const handleDeleteReservation = async (id: number) => {
-    if (window.confirm('Are you sure you want to delete this reservation?')) {
-      try {
-        await adminService.deleteReservation(id);
-        setReservations(reservations.filter((res) => res.id !== id));
-        setMessage('Reservation deleted successfully.');
-      } catch (error: any) {
-        console.error('Error deleting reservation:', error);
-        setError('Failed to delete reservation.');
-      }
-    }
-  };
-
   const handleUpdateReservationStatus = async (id: number, status: string) => {
     if (window.confirm(`Are you sure you want to set this reservation to '${status}'?`)) {
       try {
         await adminService.updateReservation(id, { status });
-
+  
         setReservations(
           reservations.map((res) =>
             res.id === id ? { ...res, status } : res
           )
         );
         setMessage(`Reservation status updated to '${status}'.`);
+  
+        refreshPendingCount();
       } catch (error: any) {
         console.error('Error updating reservation:', error);
         setError('Failed to update reservation status.');
+      }
+    }
+  };
+  
+  const handleDeleteReservation = async (id: number) => {
+    if (window.confirm('Are you sure you want to delete this reservation?')) {
+      try {
+        await adminService.deleteReservation(id);
+        setReservations(reservations.filter((res) => res.id !== id));
+        setMessage('Reservation deleted successfully.');
+  
+        refreshPendingCount();
+      } catch (error: any) {
+        console.error('Error deleting reservation:', error);
+        setError('Failed to delete reservation.');
       }
     }
   };

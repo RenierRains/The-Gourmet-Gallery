@@ -17,4 +17,6 @@ router.get('/reservations', adminController.getAllReservations);
 router.put('/reservations/:id', adminController.updateReservation);
 router.delete('/reservations/:id', adminController.deleteReservation);
 
+router.get('/reservations/pending/count', adminController.getPendingReservationsCount);
+
 module.exports = router;

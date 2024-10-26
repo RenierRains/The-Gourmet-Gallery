@@ -174,7 +174,23 @@ const exportReservations = async (format: 'csv' | 'xlsx') => {
   return response.data;
 };
 
-export default {
+const getPendingReservationsCount = async (): Promise<number> => {
+  const token = localStorage.getItem('user');
+
+  if (!token) {
+    throw new Error('User not authenticated');
+  }
+
+  const response = await axios.get(`${API_URL}reservations/pending/count`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data.count;
+};
+
+const adminService = {
   getUsers,
   deleteUser,
   getReservations,
@@ -185,4 +201,7 @@ export default {
   updateMenuItem,
   deleteMenuItem,
   exportReservations,
+  getPendingReservationsCount,
 };
+
+export default adminService;

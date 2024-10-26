@@ -139,3 +139,14 @@ exports.deleteReservation = async (req, res) => {
     res.status(500).json({ message: 'Server error', error });
   }
 };
+
+exports.getPendingReservationsCount = async (req, res) => {
+  try {
+    const count = await Reservation.count({ where: { status: 'pending' } });
+    res.status(200).json({ count });
+  } catch (error) {
+    console.error('Error fetching pending reservations count:', error);
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
+
