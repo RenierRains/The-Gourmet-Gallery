@@ -139,7 +139,7 @@ exports.getUserReservations = async (req, res) => {
     }
   };
 
-  const getPendingReservationsCount = asyncHandler(async (req, res) => {
+  exports.getPendingReservationsCount = async (req, res) => {
     const count = await Reservation.countDocuments({ status: 'pending' });
     res.json({ count });
-  });
+  };

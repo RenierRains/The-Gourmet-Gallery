@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Menu as IconMenu, X } from 'lucide-react';
 import { Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 import Register from './components/Register';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
@@ -31,7 +32,6 @@ const AppContent: React.FC = () => {
     <div>
       <header>
         <nav>
-          {/* Replace div.logo with img */}
           <img src="/logo-header.png" alt="The Gourmet Gallery" className="header-logo" />
           <button className="menu-button" onClick={toggleMenu}>
             {isMenuOpen ? <X /> : <IconMenu />}
@@ -40,8 +40,12 @@ const AppContent: React.FC = () => {
             <li><Link to="/">Home</Link></li>
             <li><Link to="/menu">Menu</Link></li>
             <li><Link to="/reservation">Reservation</Link></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li>
+              <HashLink smooth to="/#about">About</HashLink>
+            </li>
+            <li>
+              <HashLink smooth to="/#contact">Contact</HashLink>
+            </li>
             {!isAuthenticated && (
               <>
                 <li><Link to="/login">Login</Link></li>
