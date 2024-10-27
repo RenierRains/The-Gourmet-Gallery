@@ -1,3 +1,4 @@
+// managereservations.tsx
 import React, { useEffect, useState } from 'react';
 import adminService from '../services/adminService';
 import './ManageReservations.css';
@@ -34,7 +35,9 @@ const ManageReservations: React.FC<ManageReservationsProps> = ({ refreshPendingC
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
 
-  // page state
+  const [sortField, setSortField] = useState<string>('date');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const reservationsPerPage = 20;
 
@@ -70,9 +73,38 @@ const ManageReservations: React.FC<ManageReservationsProps> = ({ refreshPendingC
       tempReservations = tempReservations.filter((res) => res.status === filterStatus);
     }
 
+    tempReservations.sort((a, b) => {
+      let fieldA: any;
+      let fieldB: any;
+
+      if (sortField === 'User.username') {
+        fieldA = a.User.username.toLowerCase();
+        fieldB = b.User.username.toLowerCase();
+      } else if (sortField === 'date') {
+        const dateA = new Date(`${a.date} ${a.time}`);
+        const dateB = new Date(`${b.date} ${b.time}`);
+        if (dateA < dateB) return sortOrder === 'asc' ? -1 : 1;
+        if (dateA > dateB) return sortOrder === 'asc' ? 1 : -1;
+        return 0;
+      } else if (sortField === 'guests') {
+        fieldA = a.guests;
+        fieldB = b.guests;
+      } else {
+        fieldA = a[sortField as keyof Reservation];
+        fieldB = b[sortField as keyof Reservation];
+
+        if (typeof fieldA === 'string') fieldA = fieldA.toLowerCase();
+        if (typeof fieldB === 'string') fieldB = fieldB.toLowerCase();
+      }
+
+      if (fieldA < fieldB) return sortOrder === 'asc' ? -1 : 1;
+      if (fieldA > fieldB) return sortOrder === 'asc' ? 1 : -1;
+      return 0;
+    });
+
     setFilteredReservations(tempReservations);
     setCurrentPage(1); 
-  }, [searchQuery, filterStatus, reservations]);
+  }, [searchQuery, filterStatus, sortField, sortOrder, reservations]);
 
   const handleUpdateReservationStatus = async (id: number, status: string) => {
     if (window.confirm(`Are you sure you want to set this reservation to '${status}'?`)) {
@@ -109,7 +141,6 @@ const ManageReservations: React.FC<ManageReservationsProps> = ({ refreshPendingC
     }
   };
 
-  // export
   const handleExport = async (format: 'csv' | 'xlsx') => {
     try {
       const blob = await adminService.exportReservations(format);
@@ -122,7 +153,16 @@ const ManageReservations: React.FC<ManageReservationsProps> = ({ refreshPendingC
     }
   };
 
-  // pagination
+  const handleSort = (field: string) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortOrder('asc');
+    }
+    setCurrentPage(1);
+  };
+
   const indexOfLastReservation = currentPage * reservationsPerPage;
   const indexOfFirstReservation = indexOfLastReservation - reservationsPerPage;
   const currentReservations = filteredReservations.slice(indexOfFirstReservation, indexOfLastReservation);
@@ -133,7 +173,6 @@ const ManageReservations: React.FC<ManageReservationsProps> = ({ refreshPendingC
   const renderPagination = () => {
     const pageNumbers: number[] = [];
 
-    // limit
     const maxPageNumbersToShow = 5;
     let startPage = Math.max(currentPage - Math.floor(maxPageNumbersToShow / 2), 1);
     let endPage = startPage + maxPageNumbersToShow - 1;
@@ -198,7 +237,6 @@ const ManageReservations: React.FC<ManageReservationsProps> = ({ refreshPendingC
       {message && <p className="message">{message}</p>}
       {error && <p className="error-message">{error}</p>}
 
-      {/* Export Buttons */}
       <div className="export-buttons">
         <button onClick={() => handleExport('csv')} className="export-button">
           <Download size={16} /> Export CSV
@@ -208,18 +246,23 @@ const ManageReservations: React.FC<ManageReservationsProps> = ({ refreshPendingC
         </button>
       </div>
 
-      {/* Search and Filter Inputs */}
       <div className="search-filter-container">
         <input
           type="text"
           placeholder="Search by username, phone, or date"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setCurrentPage(1);
+          }}
           className="search-input"
         />
         <select
           value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
+          onChange={(e) => {
+            setFilterStatus(e.target.value);
+            setCurrentPage(1);
+          }}
           className="filter-select"
         >
           <option value="all">All Statuses</option>
@@ -237,12 +280,24 @@ const ManageReservations: React.FC<ManageReservationsProps> = ({ refreshPendingC
           <table className="reservations-table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>User</th>
-                <th>Date & Time</th>
-                <th>Guests</th>
-                <th>Phone</th>
-                <th>Status</th>
+                <th onClick={() => handleSort('id')} className="sortable-header">
+                  ID {sortField === 'id' && (sortOrder === 'asc' ? '▲' : '▼')}
+                </th>
+                <th onClick={() => handleSort('User.username')} className="sortable-header">
+                  User {sortField === 'User.username' && (sortOrder === 'asc' ? '▲' : '▼')}
+                </th>
+                <th onClick={() => handleSort('date')} className="sortable-header">
+                  Date & Time {sortField === 'date' && (sortOrder === 'asc' ? '▲' : '▼')}
+                </th>
+                <th onClick={() => handleSort('guests')} className="sortable-header">
+                  Guests {sortField === 'guests' && (sortOrder === 'asc' ? '▲' : '▼')}
+                </th>
+                <th onClick={() => handleSort('phone')} className="sortable-header">
+                  Phone {sortField === 'phone' && (sortOrder === 'asc' ? '▲' : '▼')}
+                </th>
+                <th onClick={() => handleSort('status')} className="sortable-header">
+                  Status {sortField === 'status' && (sortOrder === 'asc' ? '▲' : '▼')}
+                </th>
                 <th>Special Requests</th>
                 <th>Actions</th>
               </tr>
@@ -304,7 +359,6 @@ const ManageReservations: React.FC<ManageReservationsProps> = ({ refreshPendingC
             </tbody>
           </table>
 
-          {/* pagination */}
           {renderPagination()}
         </>
       ) : (

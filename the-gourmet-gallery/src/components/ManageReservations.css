@@ -1,6 +1,7 @@
+/* managereservations.css */
 .manage-reservations {
   padding: 1rem;
-  background-color: #2a1f1a; /* bg color */
+  background-color: #2a1f1a;
   border-radius: 8px;
 }
 
@@ -67,7 +68,7 @@
 }
 
 .export-button {
-  background-color: #a8552f; /* Changed to #a8552f */
+  background-color: #a8552f;
   color: #ffffff;
   padding: 0.5rem 1rem;
   border: none;
@@ -80,7 +81,7 @@
 }
 
 .export-button:hover {
-  background-color: #884d1c; /* Darker shade on hover */
+  background-color: #884d1c;
 }
 
 .reservations-table {
@@ -99,6 +100,12 @@
 .reservations-table th {
   background-color: #2a1f1a;
   color: #e6d5c5;
+  cursor: pointer;
+}
+
+.sortable-header {
+  cursor: pointer;
+  user-select: none;
 }
 
 .reservations-table tbody tr:nth-child(even) {
@@ -147,22 +154,21 @@
 }
 
 .approve-button:hover {
-  color: #5cb85c; /* green */
+  color: #5cb85c;
 }
 
 .complete-button:hover {
-  color: #0275d8; /* blue */
+  color: #0275d8;
 }
 
 .cancel-button:hover {
-  color: #d9534f; /* red */
+  color: #d9534f;
 }
 
 .delete-button:hover {
-  color: #ff4d4d; /* bright red */
+  color: #ff4d4d;
 }
 
-/* Pagination Styles */
 .pagination {
   display: flex;
   justify-content: center;
@@ -173,9 +179,9 @@
 }
 
 .pagination-button {
-  background-color: #a8552f; /* Changed to #a8552f */
+  background-color: #a8552f;
   color: #ffffff;
-  border: 1px solid #a8552f; /* Match border with background */
+  border: 1px solid #a8552f;
   padding: 0.5rem 0.75rem;
   border-radius: 4px;
   cursor: pointer;
@@ -183,7 +189,7 @@
 }
 
 .pagination-button:hover {
-  background-color: #884d1c; /* Darker shade on hover */
+  background-color: #884d1c;
 }
 
 .pagination-button.active {
@@ -203,7 +209,6 @@
   color: #e6d5c5;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .search-filter-container {
     flex-direction: column;
