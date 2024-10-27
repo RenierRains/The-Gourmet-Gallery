@@ -72,3 +72,18 @@
     color: red; 
   }
   
+  .auth-switch {
+    text-align: center;
+    margin-top: 1rem;
+    color: #e6d5c5;
+  }
+  
+  .auth-switch a {
+    color: #a8552f;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .auth-switch a:hover {
+    text-decoration: underline;
+  }

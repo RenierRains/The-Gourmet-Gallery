@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Menu as IconMenu, X } from 'lucide-react';
-import { Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
-import { HashLink } from 'react-router-hash-link';
+import { Routes, Route, Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link'; 
 import Register from './components/Register';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
@@ -15,18 +15,24 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const AppContent: React.FC = () => {
-  const { isAuthenticated, user } = useContext(AuthContext);
+  const { isAuthenticated, user, logout } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate(); 
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Close the menu when navigating to a new route
+  // close
   useEffect(() => {
     setIsMenuOpen(false);
   }, [location]);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
     <div>
@@ -46,17 +52,24 @@ const AppContent: React.FC = () => {
             <li>
               <HashLink smooth to="/#contact">Contact</HashLink>
             </li>
-            {!isAuthenticated && (
+            {!isAuthenticated ? (
               <>
-                <li><Link to="/login">Login</Link></li>
-                <li><Link to="/register">Register</Link></li>
+                <li>
+                  <button onClick={() => navigate('/login')} className="nav-button">Login</button>
+                </li>
               </>
-            )}
-            {isAuthenticated && (
-              <li><Link to="/dashboard">Dashboard</Link></li>
-            )}
-            {isAuthenticated && user?.isAdmin && (
-              <li><Link to="/admin">Admin Panel</Link></li>
+            ) : (
+              <>
+                <li>
+                  <Link to="/dashboard">Dashboard</Link>
+                </li>
+                {user?.isAdmin && (
+                  <li><Link to="/admin">Admin Panel</Link></li>
+                )}
+                <li>
+                  <button onClick={handleLogout} className="nav-button">Logout</button>
+                </li>
+              </>
             )}
           </ul>
         </nav>

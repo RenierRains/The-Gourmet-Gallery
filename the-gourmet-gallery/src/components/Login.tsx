@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import authService from '../services/authService';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import './Auth.css';
 
@@ -49,6 +49,9 @@ const Login: React.FC = () => {
           <button type="submit" className="auth-button">Login</button>
         </form>
         {message && <p className="auth-message">{message}</p>}
+        <p className="auth-switch">
+          Don't have an account? <Link to="/register">Sign up</Link>
+        </p>
       </div>
     </div>
   );

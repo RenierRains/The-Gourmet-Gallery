@@ -34,7 +34,7 @@ nav {
 */
 
 .header-logo {
-  width: 150px; /* Adjust the size as needed */
+  width: 150px; 
   height: auto;
 }
 
@@ -98,21 +98,21 @@ main {
   margin: 0 auto;
 }
 
-/* Footer */
+
 .footer {
   background-color: #1c1410;
   padding: 2rem 0;
   text-align: center;
 }
 
-/* Responsive design */
+
 @media (max-width: 768px) {
   .menu-button {
-    display: block; /* Show menu button on mobile */
+    display: block;
   }
 
   nav ul {
-    display: none; /* Hide nav items on mobile */
+    display: none; 
     flex-direction: column;
     position: absolute;
     top: 100%;
@@ -122,7 +122,7 @@ main {
     padding: 1rem;
   }
 
-  /* Show nav items when the mobile menu is open */
+
   nav ul.open {
     display: flex;
   }
@@ -130,7 +130,38 @@ main {
 
 @media (min-width: 769px) {
   nav ul {
-    display: flex; /* Display nav items on larger screens */
+    display: flex; 
     gap: 2rem;
+  }
+}
+
+.nav-button {
+  background-color: #a8552f;
+  color: #e6d5c5;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: #8b4a2e;
+}
+
+.nav-button:focus {
+  outline: none;
+}
+
+.nav-button + .nav-button {
+  margin-left: 0.5rem;
+}
+
+
+@media (max-width: 768px) {
+  .nav-button {
+    width: 100%;
+    text-align: left;
   }
 }
