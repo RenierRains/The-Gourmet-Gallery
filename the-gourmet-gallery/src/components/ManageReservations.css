@@ -1,8 +1,9 @@
-/* managereservations.css */
 .manage-reservations {
   padding: 1rem;
   background-color: #2a1f1a;
   border-radius: 8px;
+  overflow-y: auto;
+  max-height: calc(100vh - 100px);
 }
 
 .manage-reservations h2 {

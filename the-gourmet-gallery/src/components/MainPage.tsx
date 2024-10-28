@@ -73,7 +73,7 @@ const MainPage: React.FC = () => {
       </section>
 
       <section id="menu">
-        <h2>Our Menu</h2>
+        <h2>Featured Menu Items</h2>
 
         {loading && <p>Loading menu...</p>}
         {error && <p className="error-message">{error}</p>}

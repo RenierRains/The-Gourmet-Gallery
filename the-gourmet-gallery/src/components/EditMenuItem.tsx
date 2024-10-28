@@ -108,7 +108,7 @@ const EditMenuItem: React.FC<EditMenuItemProps> = ({ menuItem, onClose, onUpdate
             </select>
           </label>
           <label>
-            Price ($):
+            Price (₱):
             <input
               type="number"
               step="0.01"

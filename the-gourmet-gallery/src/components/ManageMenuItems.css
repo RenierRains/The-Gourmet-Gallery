@@ -1,5 +1,7 @@
 .manage-menu-items {
   padding: 1rem;
+  overflow-y: auto;
+  max-height: calc(100vh - 100px);
 }
 
 .manage-menu-items h2 {
@@ -111,13 +113,12 @@
 }
 
 .edit-button:hover {
-  color: #0275d8; 
+  color: #0275d8;
 }
 
 .delete-button:hover {
-  color: #ff4d4d; 
+  color: #ff4d4d;
 }
-
 
 .pagination {
   display: flex;
@@ -159,7 +160,6 @@
   color: #e6d5c5;
 }
 
-/* Modal Styles */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -247,7 +247,6 @@
   border-radius: 4px;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .manage-menu-items {
     padding: 0.5rem;

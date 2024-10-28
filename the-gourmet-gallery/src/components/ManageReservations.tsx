@@ -1,4 +1,3 @@
-// managereservations.tsx
 import React, { useEffect, useState } from 'react';
 import adminService from '../services/adminService';
 import './ManageReservations.css';

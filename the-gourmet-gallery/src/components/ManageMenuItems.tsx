@@ -20,18 +20,15 @@ const ManageMenuItems: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<string>('');
 
-  // Search and filter states
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filterCategory, setFilterCategory] = useState<string>('all');
 
-  // Modal states
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [currentMenuItem, setCurrentMenuItem] = useState<MenuItem | null>(null);
 
-  // Pagination states
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = 10; // Number of items per page
+  const itemsPerPage = 10;
 
   const [sortField, setSortField] = useState<string>('name');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
@@ -59,7 +56,6 @@ const ManageMenuItems: React.FC = () => {
   const filterMenuItems = () => {
     let tempMenuItems = [...menuItems];
 
-    // Filter by search query
     if (searchQuery) {
       tempMenuItems = tempMenuItems.filter((item) =>
         item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -67,17 +63,14 @@ const ManageMenuItems: React.FC = () => {
       );
     }
 
-    // filter by category
     if (filterCategory !== 'all') {
       tempMenuItems = tempMenuItems.filter((item) => item.category === filterCategory);
     }
 
-    // sort the items
     tempMenuItems.sort((a, b) => {
       let fieldA = a[sortField as keyof MenuItem];
       let fieldB = b[sortField as keyof MenuItem];
     
-      // Handle numeric sorting for price field
       if (sortField === 'price') {
         const numA = parseFloat(fieldA as string);
         const numB = parseFloat(fieldB as string);
@@ -86,7 +79,6 @@ const ManageMenuItems: React.FC = () => {
         if (numA > numB) return sortOrder === 'asc' ? 1 : -1;
         return 0;
       } else {
-        // Convert strings to lowercase for case-insensitive comparison
         if (typeof fieldA === 'string') fieldA = fieldA.toLowerCase();
         if (typeof fieldB === 'string') fieldB = fieldB.toLowerCase();
     
@@ -95,7 +87,6 @@ const ManageMenuItems: React.FC = () => {
         return 0;
       }
     });
-
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -144,7 +135,7 @@ const ManageMenuItems: React.FC = () => {
       setSortField(field);
       setSortOrder('asc');
     }
-    setCurrentPage(1); // Reset to first page on sort
+    setCurrentPage(1);
   };
 
   const totalPages = Math.ceil(
@@ -169,7 +160,6 @@ const ManageMenuItems: React.FC = () => {
       <h2>Manage Menu Items</h2>
       {message && <p className="message">{message}</p>}
 
-      {/* Search and Filter */}
       <div className="search-filter-container">
         <input
           type="text"
@@ -194,7 +184,6 @@ const ManageMenuItems: React.FC = () => {
           <option value="Main Course">Main Course</option>
           <option value="Dessert">Dessert</option>
           <option value="Beverage">Beverage</option>
-          {/* Add more categories as needed */}
         </select>
         <button className="add-button" onClick={() => setShowAddModal(true)}>
           <PlusCircle size={16} /> Add Menu Item
@@ -219,7 +208,7 @@ const ManageMenuItems: React.FC = () => {
                   Category {sortField === 'category' && (sortOrder === 'asc' ? '▲' : '▼')}
                 </th>
                 <th onClick={() => handleSort('price')} className="sortable-header">
-                  Price ($) {sortField === 'price' && (sortOrder === 'asc' ? '▲' : '▼')}
+                  Price (₱) {sortField === 'price' && (sortOrder === 'asc' ? '▲' : '▼')}
                 </th>
                 <th>Actions</th>
               </tr>
@@ -255,7 +244,6 @@ const ManageMenuItems: React.FC = () => {
             </tbody>
           </table>
 
-          {/* Pagination Controls */}
           <div className="pagination">
             <button
               onClick={() => handlePageChange(currentPage - 1)}
@@ -265,7 +253,6 @@ const ManageMenuItems: React.FC = () => {
               <ChevronLeft size={16} /> Prev
             </button>
 
-            {/* Page Numbers */}
             {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
               <button
                 key={pageNumber}
@@ -289,7 +276,6 @@ const ManageMenuItems: React.FC = () => {
         <p>No menu items found.</p>
       )}
 
-      {/* Add Menu Item Modal */}
       {showAddModal && (
         <AddMenuItem
           onClose={() => setShowAddModal(false)}
@@ -297,7 +283,6 @@ const ManageMenuItems: React.FC = () => {
         />
       )}
 
-      {/* Edit Menu Item Modal */}
       {showEditModal && currentMenuItem && (
         <EditMenuItem
           menuItem={currentMenuItem}

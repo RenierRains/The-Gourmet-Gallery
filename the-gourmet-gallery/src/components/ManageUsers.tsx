@@ -20,7 +20,6 @@ const ManageUsers: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filterAdminStatus, setFilterAdminStatus] = useState<string>('all');
 
-  // Pagination state
   const [currentPage, setCurrentPage] = useState<number>(1);
   const usersPerPage = 20;
 
@@ -73,7 +72,6 @@ const ManageUsers: React.FC = () => {
     }
   };
 
-  // pagination
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
@@ -84,7 +82,6 @@ const ManageUsers: React.FC = () => {
   const renderPagination = () => {
     const pageNumbers: number[] = [];
 
-    // limit
     const maxPageNumbersToShow = 5;
     let startPage = Math.max(currentPage - Math.floor(maxPageNumbersToShow / 2), 1);
     let endPage = startPage + maxPageNumbersToShow - 1;
@@ -149,7 +146,6 @@ const ManageUsers: React.FC = () => {
       {message && <p className="message">{message}</p>}
       {error && <p className="error-message">{error}</p>}
 
-      {/* Search and Filter Inputs */}
       <div className="search-filter-container">
         <input
           type="text"
@@ -204,7 +200,6 @@ const ManageUsers: React.FC = () => {
             </tbody>
           </table>
 
-          {/* Pagination Controls */}
           {renderPagination()}
         </>
       ) : (

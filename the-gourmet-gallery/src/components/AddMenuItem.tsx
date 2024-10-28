@@ -85,7 +85,7 @@ const AddMenuItem: React.FC<AddMenuItemProps> = ({ onClose, onAdd }) => {
               <option value="Main Course">Main Course</option>
               <option value="Dessert">Dessert</option>
               <option value="Beverage">Beverage</option>
-              {/* Add more categories as needed */}
+              {/* add */}
             </select>
           </label>
           <label>
